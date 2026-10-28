@@ -197,7 +197,7 @@
                     <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                         <c:forEach items="${category}" var="category">
                             <li><a href="/advertising/category/${category.id}"
-                                   class="link-dark d-inline-flex text-decoration-none rounded"> ${category.name}</a>
+                                   class="link-dark d-inline-flex text-decoration-none rounded"> <c:out value="${category.name}"/></a>
                             </li>
                         </c:forEach>
                     </ul>
@@ -218,7 +218,7 @@
                     <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                         <c:forEach items="${brand}" var="brand">
                             <li><a href="/advertising/brand/${brand.id}"
-                                   class="link-dark d-inline-flex text-decoration-none rounded"> ${brand.name}</a></li>
+                                   class="link-dark d-inline-flex text-decoration-none rounded"> <c:out value="${brand.name}"/></a></li>
                         </c:forEach>
                     </ul>
                 </div>

@@ -1,4 +1,4 @@
-# Final_Project
+# ApexWheels
 ## Table of contents
 * [General info](#general-info)
 * [Technologies](#technologies)
@@ -10,7 +10,7 @@ Frontend based on Bootstrap communicating with Java through both JSP and JSTL in
 	
 ## Technologies
 Project is created with:
-* Java version: 11
+* Java version: 21
 * Bootstrap version: 5.0
-* Spring Boot version: 2.7.5
-* Hibernate version: 6.0.17
+* Spring Boot version: 4.1.2
+* Hibernate ORM managed by Spring Boot

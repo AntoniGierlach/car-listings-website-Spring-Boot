@@ -40,7 +40,8 @@
 
                 <div class="card shadow-sm">
                     <c:if test="${not empty item.image}">
-                    <img src='<c:url value="../../../resources/images/${item.image}"></c:url>'
+                    <c:url var="imageUrl" value="../../../resources/images/${item.image}"/>
+                    <img src="<c:out value="${imageUrl}"/>"
                          class="bd-placeholder-img card-img-top image-background"
                          xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail"
                          preserveAspectRatio="xMidYMid slice" focusable="false"/>
@@ -55,9 +56,9 @@
                     </c:if>
 
                     <div class="card-body">
-                        <h3>${item.title} • ${item.price} zł</h3>
-                        <p class="card-text">${item.brand.name} • Rok produkcji: ${item.year_of_production}</p>
-                        <p class="card-text">Przebieg: ${item.mileage} km</p>
+                        <h3><c:out value="${item.title}"/> • <c:out value="${item.price}"/> zł</h3>
+                        <p class="card-text"><c:out value="${item.brand.name}"/> • Rok produkcji: <c:out value="${item.year_of_production}"/></p>
+                        <p class="card-text">Przebieg: <c:out value="${item.mileage}"/> km</p>
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="btn-group">
                                 <a href="<c:url value="/advertising/details/${item.id}"/>"
@@ -69,7 +70,7 @@
 
                             </div>
                             <c:if test="${not empty item.updatedAt}">
-                                <small class="text-muted">Aktualizowano: ${item.updatedAt}</small>
+                                <small class="text-muted">Aktualizowano: <c:out value="${item.updatedAt}"/></small>
                             </c:if>
                         </div>
                     </div>

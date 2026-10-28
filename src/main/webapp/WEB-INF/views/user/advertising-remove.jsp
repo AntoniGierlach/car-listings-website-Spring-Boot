@@ -10,8 +10,8 @@
             <form:form method="post" modelAttribute="advertising">
                 <form:hidden path="id"/>
                 <p class="lead text-muted">Czy na pewno chcesz usunąć to ogłoszenie?</p>
-                <h3>${advertising.title}</h3>
-                <h5>${advertising.description}</h5>
+                <h3><c:out value="${advertising.title}"/></h3>
+                <h5><c:out value="${advertising.description}"/></h5>
                 <p>
                     <input type="submit" class="btn btn-primary my-2" name="remove" value="Tak">
                     <input type="submit" class="btn btn-secondary my-2" name="remove" value="Nie">

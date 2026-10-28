@@ -29,9 +29,8 @@
                 <div class="col col-width">
                     <div class="card shadow-sm">
                         <div class="card-body">
-                            <h4>Imię: ${user.name}</h4>
-                            <h4>Nazwa użytkownika: ${user.username}</h4>
-                            <p class="card-text">${user.password}</p>
+                            <h4>Imię: <c:out value="${user.name}"/></h4>
+                            <h4>Nazwa użytkownika: <c:out value="${user.username}"/></h4>
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="btn-group">
                                     <c:if test="${user.enabled == 1}">
