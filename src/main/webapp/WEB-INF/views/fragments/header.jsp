@@ -1,283 +1,285 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!doctype html>
-<html lang="en">
+<html lang="pl">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-    <meta name="generator" content="Hugo 0.104.2">
-    <title>Final Project</title>
+    <meta name="description" content="ApexWheels — wyselekcjonowane samochody na sprzedaż">
+    <title>ApexWheels — samochody z charakterem</title>
 
-    <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/headers/">
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 
     <style>
-        @media (min-width: 768px) {
-            .bd-placeholder-img-lg {
-                font-size: 3.5rem;
-            }
+        :root {
+            --ink: #17212b;
+            --muted: #74808a;
+            --line: #e6e9ec;
+            --canvas: #f7f8f6;
+            --surface: #ffffff;
+            --navy: #102a43;
+            --orange: #e27d45;
+            --orange-soft: #fff1e8;
+            --shadow: 0 16px 36px rgba(16, 42, 67, .08);
         }
 
-        .b-example-divider {
-            height: 3rem;
-            background-color: rgba(0, 0, 0, .1);
-            border: solid rgba(0, 0, 0, .15);
-            border-width: 1px 0;
-            box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
-        }
-
-        .b-example-vr {
-            flex-shrink: 0;
-            width: 1.5rem;
-            height: 100vh;
-        }
-
-        .bi {
-            vertical-align: -.125em;
-            fill: currentColor;
-        }
-
-        .nav-scroller .nav {
-            display: flex;
-            flex-wrap: nowrap;
-            padding-bottom: 1rem;
-            margin-top: -1px;
-            overflow-x: auto;
-            text-align: center;
-            white-space: nowrap;
-            -webkit-overflow-scrolling: touch;
-        }
-
+        * { box-sizing: border-box; }
+        html { min-height: 100%; }
         body {
             min-height: 100vh;
-            min-height: -webkit-fill-available;
+            margin: 0;
+            background: var(--canvas);
+            color: var(--ink);
+            font-family: "DM Sans", sans-serif;
+            -webkit-font-smoothing: antialiased;
         }
-
-        html {
-            height: -webkit-fill-available;
+        h1, h2, h3, h4, h5, .brand-name { font-family: "Manrope", sans-serif; }
+        a { color: inherit; }
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            background: rgba(16, 42, 67, .97);
+            color: #fff;
+            border-bottom: 1px solid rgba(255,255,255,.08);
         }
-
-        main {
-            height: 100vh;
-            height: -webkit-fill-available;
-            max-height: 100vh;
-            overflow-x: auto;
-            overflow-y: hidden;
+        .topbar-inner {
+            max-width: 1440px;
+            min-height: 76px;
+            margin: 0 auto;
+            padding: 0 32px;
+            display: flex;
+            align-items: center;
+            gap: 34px;
         }
-
-        .btn-toggle {
-            padding: .25rem .5rem;
-            font-weight: 600;
-            color: rgba(0, 0, 0, .65);
-            background-color: transparent;
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 11px;
+            color: #fff;
+            text-decoration: none;
+            white-space: nowrap;
         }
-
-        .btn-toggle:hover,
-        .btn-toggle:focus {
-            color: rgba(0, 0, 0, .85);
-            background-color: #d2f4ea;
+        .brand-mark {
+            width: 35px;
+            height: 35px;
+            display: grid;
+            place-items: center;
+            border: 1px solid rgba(255,255,255,.45);
+            border-radius: 50%;
+            color: var(--orange);
         }
-
-        .btn-toggle::before {
-            width: 1.25em;
-            line-height: 0;
-            content: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='rgba%280,0,0,.5%29' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5 14l6-6-6-6'/%3e%3c/svg%3e");
-            transition: transform .35s ease;
-            transform-origin: .5em 50%;
+        .brand-name { font-size: 1.14rem; letter-spacing: -.03em; }
+        .brand-name span { color: var(--orange); }
+        .primary-nav { display: flex; align-items: center; gap: 8px; margin-right: auto; }
+        .primary-nav a {
+            padding: 9px 13px;
+            color: rgba(255,255,255,.66);
+            text-decoration: none;
+            font-size: .88rem;
+            border-radius: 8px;
+            transition: color .2s ease, background .2s ease;
         }
-
-        .btn-toggle[aria-expanded="true"] {
-            color: rgba(0, 0, 0, .85);
+        .primary-nav a:hover, .primary-nav a:focus-visible { color: #fff; background: rgba(255,255,255,.1); }
+        .header-actions { display: flex; align-items: center; gap: 10px; }
+        .btn-apex {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 42px;
+            padding: 0 17px;
+            border: 0;
+            border-radius: 8px;
+            background: var(--orange);
+            color: #fff;
+            font-weight: 700;
+            font-size: .84rem;
+            text-decoration: none;
+            transition: transform .2s ease, background .2s ease;
         }
-
-        .btn-toggle[aria-expanded="true"]::before {
-            transform: rotate(90deg);
+        .btn-apex:hover, .btn-apex:focus-visible { color: #fff; background: #d66b34; transform: translateY(-1px); }
+        .btn-quiet {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 42px;
+            padding: 0 14px;
+            border: 1px solid rgba(255,255,255,.25);
+            border-radius: 8px;
+            background: transparent;
+            color: #fff;
+            font-size: .84rem;
+            text-decoration: none;
         }
-
-        .btn-toggle-nav a {
-            padding: .1875rem .5rem;
-            margin-top: .125rem;
-            margin-left: 1.25rem;
+        .btn-quiet:hover, .btn-quiet:focus-visible { color: #fff; border-color: #fff; }
+        .shell {
+            max-width: 1440px;
+            min-height: calc(100vh - 76px);
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 248px minmax(0, 1fr);
         }
-
-        .btn-toggle-nav a:hover,
-        .btn-toggle-nav a:focus {
-            background-color: #d2f4ea;
+        .sidebar {
+            padding: 30px 20px;
+            border-right: 1px solid var(--line);
+            background: #fbfcfa;
         }
-
-        .d-flex {
-            max-height: 62em;
+        .sidebar-heading {
+            margin: 0 0 22px;
+            color: var(--muted);
+            font-size: .68rem;
+            font-weight: 700;
+            letter-spacing: .15em;
+            text-transform: uppercase;
         }
-
-        .flex-shrink-0 {
-            overflow: auto;
+        .filter-section { padding: 18px 0; border-top: 1px solid var(--line); }
+        .filter-section:first-of-type { padding-top: 0; border-top: 0; }
+        .filter-label {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            color: var(--ink);
+            font-size: .82rem;
+            font-weight: 700;
         }
-
+        .filter-label svg { color: var(--orange); }
+        .filter-links { display: flex; flex-direction: column; gap: 7px; }
+        .filter-links a {
+            padding: 5px 0;
+            color: var(--muted);
+            text-decoration: none;
+            font-size: .82rem;
+            transition: color .2s ease, padding .2s ease;
+        }
+        .filter-links a:hover, .filter-links a:focus-visible { padding-left: 4px; color: var(--orange); }
+        .range-form { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+        .range-form input {
+            min-width: 0;
+            padding: 9px 10px;
+            border: 1px solid var(--line);
+            border-radius: 7px;
+            background: #fff;
+            font-size: .78rem;
+        }
+        .range-form button {
+            grid-column: 1 / -1;
+            min-height: 36px;
+            border: 0;
+            border-radius: 7px;
+            background: var(--navy);
+            color: #fff;
+            font-size: .76rem;
+            font-weight: 700;
+        }
+        .content { min-width: 0; padding: 42px clamp(22px, 4vw, 64px) 60px; }
+        :focus-visible { outline: 3px solid rgba(226,125,69,.45); outline-offset: 3px; }
+        @media (max-width: 900px) {
+            .topbar-inner { padding: 14px 20px; gap: 12px 16px; flex-wrap: wrap; }
+            .primary-nav { order: 3; flex-basis: 100%; overflow-x: auto; margin: 0; padding-bottom: 2px; }
+            .primary-nav a { flex: 0 0 auto; padding: 6px 10px; }
+            .shell { display: block; }
+            .sidebar { padding: 22px 20px 16px; border-right: 0; border-bottom: 1px solid var(--line); }
+            .sidebar-heading { margin-bottom: 14px; }
+            .filter-section { display: inline-block; vertical-align: top; width: 49%; padding: 10px 14px 10px 0; border-top: 0; }
+            .filter-section:first-of-type { padding-top: 10px; }
+            .filter-links { max-height: 96px; overflow-y: auto; }
+            .content { padding: 28px 20px 46px; }
+        }
+        @media (max-width: 520px) {
+            .topbar-inner { min-height: 68px; }
+            .header-actions { margin-left: auto; }
+            .brand-name { font-size: 1rem; }
+            .btn-apex { min-height: 38px; padding: 0 11px; font-size: .76rem; }
+            .btn-quiet { min-height: 38px; padding: 0 10px; font-size: .76rem; }
+            .filter-section { display: block; width: 100%; padding-right: 0; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+        }
     </style>
 </head>
 <body>
-<header class="p-3 text-bg-dark">
-    <div class="container">
-        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-            <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
-                <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-alexa"
-                     viewBox="0 0 16 16">
-                    <path d="M7.996 0A7.998 7.998 0 0 0 0 8a8 8 0 0 0 6.93 7.93v-1.613a1.06 1.06 0 0 0-.717-1.008A5.602 5.602 0 0 1 2.4 7.865 5.579 5.579 0 0 1 8.054 2.4a5.599 5.599 0 0 1 5.535 5.81l-.002.046a6.116 6.116 0 0 1-.012.192l-.005.061a4.85 4.85 0 0 1-.033.284l-.01.068c-.685 4.516-6.564 7.054-6.596 7.068A7.998 7.998 0 0 0 15.992 8 7.998 7.998 0 0 0 7.996.001Z"/>
+<header class="topbar">
+    <div class="topbar-inner">
+        <a href="<c:url value="/"/>" class="brand" aria-label="ApexWheels — strona główna">
+            <span class="brand-mark" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <path d="M5 15.5 7.3 9h9.4l2.3 6.5M4 15.5h16M7 18.5h.01M17 18.5h.01M6 15.5v2a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-2"/>
                 </svg>
-            </a>
-
-            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                <li><a href="/" class="nav-link px-2 text-secondary">Strona Główna</a></li>
-                <li><a href="/placeholder" class="nav-link px-2 text-white">Finansowanie</a></li>
-                <li><a href="/placeholder" class="nav-link px-2 text-white">FAQs</a></li>
-                <li><a href="/placeholder" class="nav-link px-2 text-white">Kontakt</a></li>
-                <li><a href="/placeholder" class="nav-link px-2 text-white">O nas</a></li>
-            </ul>
+            </span>
+            <span class="brand-name">APEX<span>WHEELS</span></span>
+        </a>
+        <nav class="primary-nav" aria-label="Główna nawigacja">
+            <a href="<c:url value="/"/>">Samochody</a>
+            <a href="<c:url value="/placeholder"/>">Finansowanie</a>
+            <a href="<c:url value="/placeholder"/>">O nas</a>
+            <a href="<c:url value="/placeholder"/>">Kontakt</a>
+        </nav>
+        <div class="header-actions">
             <c:if test="${!pageContext.request.isUserInRole('USER') && !pageContext.request.isUserInRole('ADMIN')}">
-                <div class="text-end">
-                    <a href="<c:url value="/login"/>" class="btn btn-outline-light me-2">Zaloguj</a>
-                    <a href="<c:url value="/register"/>" class="btn btn-warning">Zarejestruj</a>
-                </div>
+                <a href="<c:url value="/login"/>" class="btn-quiet">Zaloguj</a>
+                <a href="<c:url value="/register"/>" class="btn-apex">Załóż konto</a>
             </c:if>
             <c:if test="${pageContext.request.isUserInRole('USER')}">
-                <div class="text-end">
-                    <form action="<c:url value="/user/logout"/>" method="post">
-                        <a href="<c:url value="/user/advertising/list"/>" class="btn btn-outline-light me-2">Twoje
-                            ogłoszenia</a>
-                        <a href="<c:url value="/user/advertising/create"/>" class="btn btn-outline-light me-2">Dodaj
-                            ogłoszenie</a>
-                        <a href="<c:url value="/user/changePassword"/>" class="btn btn-outline-light me-2">Zmień
-                            hasło</a>
-                        <input class="btn btn-warning" type="submit" value="Wyloguj">
-                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                    </form>
-                </div>
+                <a href="<c:url value="/user/advertising/create"/>" class="btn-apex">+ Dodaj ogłoszenie</a>
+                <form action="<c:url value="/user/logout"/>" method="post" class="d-inline">
+                    <input class="btn-quiet" type="submit" value="Wyloguj">
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                </form>
             </c:if>
             <c:if test="${pageContext.request.isUserInRole('ADMIN')}">
-                <div class="text-end">
-                    <form action="<c:url value="/user/logout"/>" method="post">
-                        <a href="<c:url value="/admin/users/list"/>" class="btn btn-outline-light me-2">Lista
-                            użytkowników</a>
-                        <input class="btn btn-warning" type="submit" value="Wyloguj">
-                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                    </form>
-                </div>
+                <a href="<c:url value="/admin/users/list"/>" class="btn-quiet">Panel</a>
+                <form action="<c:url value="/user/logout"/>" method="post" class="d-inline">
+                    <input class="btn-apex" type="submit" value="Wyloguj">
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                </form>
             </c:if>
         </div>
     </div>
 </header>
 
-<main class="d-flex flex-nowrap">
-
-    <div class="b-example-divider b-example-vr"></div>
-
-    <div class="flex-shrink-0 p-3 bg-white" style="width: 280px;">
-        <a href="/" class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search"
-                 viewBox="0 0 16 16">
-                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
-            </svg>
-            <span class="fs-5 fw-semibold"> &nbsp; Wyszukiwanie</span>
-        </a>
-        <ul class="list-unstyled ps-0">
-            <li class="mb-1">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                     class="bi bi-collection" viewBox="0 0 16 16">
-                    <path d="M2.5 3.5a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1h-11zm2-2a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM0 13a1.5 1.5 0 0 0 1.5 1.5h13A1.5 1.5 0 0 0 16 13V6a1.5 1.5 0 0 0-1.5-1.5h-13A1.5 1.5 0 0 0 0 6v7zm1.5.5A.5.5 0 0 1 1 13V6a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-.5.5h-13z"/>
-                </svg>
-                <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
-                        data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true">
-                    Kategoria
-                </button>
-                <div class="collapse" id="home-collapse">
-                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                        <c:forEach items="${category}" var="category">
-                            <li><a href="/advertising/category/${category.id}"
-                                   class="link-dark d-inline-flex text-decoration-none rounded"> <c:out value="${category.name}"/></a>
-                            </li>
-                        </c:forEach>
-                    </ul>
-                </div>
-            </li>
-            <li class="border-top my-3"></li>
-            <li class="mb-1">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                     class="bi bi-car-front-fill" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd"
-                          d="M2.52 3.515A2.5 2.5 0 0 1 4.82 2h6.362c1 0 1.904.596 2.298 1.515l.792 1.848c.075.175.21.319.38.404.5.25.855.715.965 1.262l.335 1.679c.033.161.049.325.049.49v.413c0 .814-.39 1.543-1 1.997V13.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1.338c-1.292.048-2.745.088-4 .088s-2.708-.04-4-.088V13.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1.892c-.61-.454-1-1.183-1-1.997v-.413a2.5 2.5 0 0 1 .049-.49l.335-1.68c.11-.546.465-1.012.964-1.261a.807.807 0 0 0 .381-.404l.792-1.848ZM3 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Zm10 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2ZM6 8a1 1 0 0 0 0 2h4a1 1 0 1 0 0-2H6ZM2.906 5.189l.956-1.913A.5.5 0 0 1 4.309 3h7.382a.5.5 0 0 1 .447.276l.956 1.913a.51.51 0 0 1-.497.731c-.91-.073-3.35-.17-4.597-.17-1.247 0-3.688.097-4.597.17a.51.51 0 0 1-.497-.731Z"/>
-                </svg>
-                <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
-                        data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false">
-                    Marka
-                </button>
-                <div class="collapse" id="dashboard-collapse">
-                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                        <c:forEach items="${brand}" var="brand">
-                            <li><a href="/advertising/brand/${brand.id}"
-                                   class="link-dark d-inline-flex text-decoration-none rounded"> <c:out value="${brand.name}"/></a></li>
-                        </c:forEach>
-                    </ul>
-                </div>
-            </li>
-            <li class="border-top my-3"></li>
-            <li class="mb-1">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                     class="bi bi-speedometer" viewBox="0 0 16 16">
-                    <path d="M8 2a.5.5 0 0 1 .5.5V4a.5.5 0 0 1-1 0V2.5A.5.5 0 0 1 8 2zM3.732 3.732a.5.5 0 0 1 .707 0l.915.914a.5.5 0 1 1-.708.708l-.914-.915a.5.5 0 0 1 0-.707zM2 8a.5.5 0 0 1 .5-.5h1.586a.5.5 0 0 1 0 1H2.5A.5.5 0 0 1 2 8zm9.5 0a.5.5 0 0 1 .5-.5h1.5a.5.5 0 0 1 0 1H12a.5.5 0 0 1-.5-.5zm.754-4.246a.389.389 0 0 0-.527-.02L7.547 7.31A.91.91 0 1 0 8.85 8.569l3.434-4.297a.389.389 0 0 0-.029-.518z"/>
-                    <path fill-rule="evenodd"
-                          d="M6.664 15.889A8 8 0 1 1 9.336.11a8 8 0 0 1-2.672 15.78zm-4.665-4.283A11.945 11.945 0 0 1 8 10c2.186 0 4.236.585 6.001 1.606a7 7 0 1 0-12.002 0z"/>
-                </svg>
-                <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
-                        data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
-                    Przebieg
-                </button>
-                <div class="collapse" id="orders-collapse">
-                    <form action="/advertising/mileage" method="GET">
-                        <div>
-                            <input type="number" name="min" id="minMileage" class="form-control" placeholder="Od"
-                                   required="required" autofocus="autofocus">
-                            <label for="minMileage"></label>
-                            <input type="number" name="max" id="maxMileage" class="form-control" placeholder="Do"
-                                   required="required" autofocus="autofocus">
-                            <label for="maxMileage"></label>
-                        </div>
-                        <button class="btn btn-primary" type="submit">Szukaj</button>
-                    </form>
-                </div>
-            </li>
-            <li class="border-top my-3"></li>
-            <li class="mb-1">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                     class="bi bi-cash-coin" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd"
-                          d="M11 15a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm5-4a5 5 0 1 1-10 0 5 5 0 0 1 10 0z"/>
-                    <path d="M9.438 11.944c.047.596.518 1.06 1.363 1.116v.44h.375v-.443c.875-.061 1.386-.529 1.386-1.207 0-.618-.39-.936-1.09-1.1l-.296-.07v-1.2c.376.043.614.248.671.532h.658c-.047-.575-.54-1.024-1.329-1.073V8.5h-.375v.45c-.747.073-1.255.522-1.255 1.158 0 .562.378.92 1.007 1.066l.248.061v1.272c-.384-.058-.639-.27-.696-.563h-.668zm1.36-1.354c-.369-.085-.569-.26-.569-.522 0-.294.216-.514.572-.578v1.1h-.003zm.432.746c.449.104.655.272.655.569 0 .339-.257.571-.709.614v-1.195l.054.012z"/>
-                    <path d="M1 0a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h4.083c.058-.344.145-.678.258-1H3a2 2 0 0 0-2-2V3a2 2 0 0 0 2-2h10a2 2 0 0 0 2 2v3.528c.38.34.717.728 1 1.154V1a1 1 0 0 0-1-1H1z"/>
-                    <path d="M9.998 5.083 10 5a2 2 0 1 0-3.132 1.65 5.982 5.982 0 0 1 3.13-1.567z"/>
-                </svg>
-                <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
-                        data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
-                    Cena
-                </button>
-                <div class="collapse" id="account-collapse">
-                    <form action="/advertising/price" method="GET">
-                        <div>
-                            <input type="number" name="min" id="minPrice" class="form-control" placeholder="Od"
-                                   required="required" autofocus="autofocus">
-                            <label for="minPrice"></label>
-                            <input type="number" name="max" id="maxPrice" class="form-control" placeholder="Do"
-                                   required="required" autofocus="autofocus">
-                            <label for="maxPrice"></label>
-                        </div>
-                        <button class="btn btn-primary" type="submit">Szukaj</button>
-                    </form>
-                </div>
-            </li>
-        </ul>
-    </div>
-
-    <div class="b-example-divider b-example-vr"></div>
+<main class="shell">
+    <aside class="sidebar" aria-label="Filtry wyszukiwania">
+        <p class="sidebar-heading">Znajdź swój samochód</p>
+        <section class="filter-section">
+            <div class="filter-label">
+                <span>Kategoria</span>
+                <span aria-hidden="true">⌄</span>
+            </div>
+            <div class="filter-links">
+                <c:forEach items="${category}" var="category">
+                    <a href="/advertising/category/${category.id}"><c:out value="${category.name}"/></a>
+                </c:forEach>
+            </div>
+        </section>
+        <section class="filter-section">
+            <div class="filter-label"><span>Marka</span><span aria-hidden="true">⌄</span></div>
+            <div class="filter-links">
+                <c:forEach items="${brand}" var="brand">
+                    <a href="/advertising/brand/${brand.id}"><c:out value="${brand.name}"/></a>
+                </c:forEach>
+            </div>
+        </section>
+        <section class="filter-section">
+            <div class="filter-label"><span>Przebieg <span class="text-muted fw-normal">(km)</span></span></div>
+            <form action="/advertising/mileage" method="GET" class="range-form">
+                <input type="number" name="min" id="minMileage" placeholder="Od" aria-label="Minimalny przebieg" required>
+                <input type="number" name="max" id="maxMileage" placeholder="Do" aria-label="Maksymalny przebieg" required>
+                <button type="submit">Zastosuj filtr</button>
+            </form>
+        </section>
+        <section class="filter-section">
+            <div class="filter-label"><span>Cena <span class="text-muted fw-normal">(zł)</span></span></div>
+            <form action="/advertising/price" method="GET" class="range-form">
+                <input type="number" name="min" id="minPrice" placeholder="Od" aria-label="Minimalna cena" required>
+                <input type="number" name="max" id="maxPrice" placeholder="Do" aria-label="Maksymalna cena" required>
+                <button type="submit">Zastosuj filtr</button>
+            </form>
+        </section>
+    </aside>
+    <section class="content">

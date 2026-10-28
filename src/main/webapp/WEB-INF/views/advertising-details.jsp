@@ -30,7 +30,7 @@
     <div class="row row-cols-1 row-cols-md-2 align-items-md-center g-5 py-5">
         <div>
             <c:if test="${not empty item.image}">
-                <c:url var="imageUrl" value="../../../resources/images/${item.image}"/>
+                <c:url var="imageUrl" value="/images/${item.image}"/>
                 <img src="<c:out value="${imageUrl}"/>"
                      class="bd-placeholder-img card-img-top image-background"
                      xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail"
