@@ -16,7 +16,9 @@
                     <td><a href="<c:url value="/advertising/details/${item.id}"/>"><c:out value="${item.title}"/></a></td>
                     <td><c:out value="${item.user.username}"/></td>
                     <td><fmt:formatNumber value="${item.price}" groupingUsed="true"/> zł</td>
-                    <td><a class="btn btn-sm btn-outline-danger" href="<c:url value="/admin/advertising/remove/${item.id}"/>">Usuń</a></td>
+                    <td><button type="button" class="btn btn-sm btn-outline-danger"
+                                data-delete-action="<c:url value="/admin/advertising/remove/${item.id}"/>"
+                                data-delete-label="ogłoszenie: <c:out value="${item.title}"/>">Usuń</button></td>
                 </tr>
             </c:forEach>
             </tbody>
@@ -24,4 +26,5 @@
     </div>
 </section>
 
+<jsp:include page="../fragments/confirm-delete-dialog.jsp"/>
 <jsp:include page="../fragments/footer.jsp"/>

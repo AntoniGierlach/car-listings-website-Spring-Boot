@@ -218,6 +218,9 @@
             <h1 class="details-title"><c:out value="${item.title}"/></h1>
         </div>
         <div class="details-actions">
+            <a href="<c:url value="/advertising"/>" class="btn btn-outline-secondary" data-history-back>
+                <i data-lucide="chevron-left" aria-hidden="true"></i> Wróć
+            </a>
             <c:choose>
                 <c:when test="${pageContext.request.isUserInRole('USER') || pageContext.request.isUserInRole('ADMIN')}">
                     <form action="<c:url value="/user/favorites/${item.id}"/>" method="post" class="d-inline">
@@ -282,5 +285,16 @@
         </aside>
     </div>
 </div>
+
+<script>
+    document.querySelectorAll("[data-history-back]").forEach(link => {
+        link.addEventListener("click", event => {
+            if (window.history.length > 1) {
+                event.preventDefault();
+                window.history.back();
+            }
+        });
+    });
+</script>
 
 <jsp:include page="fragments/footer.jsp"/>

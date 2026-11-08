@@ -110,12 +110,11 @@
 
 <div class="listing-intro">
     <div><p class="eyebrow">ApexWheels / porównywarka</p><h1>Porównaj wybrane <em>samochody.</em></h1></div>
-    <p class="listing-note">Wybierz maksymalnie cztery oferty. Różnice między parametrami są zaznaczone.</p>
 </div>
 
-<div id="compare-empty" class="empty-state d-none">
-    <p class="eyebrow">Brak samochodów</p>
-    <h2>Dodaj oferty do porównania z listy ogłoszeń.</h2>
+<div id="compare-empty" class="empty-state d-none" role="status">
+    <h2>Nie wybrano samochodów do porównania.</h2>
+    <p>Dodaj interesujące oferty do porównania z poziomu listy ogłoszeń.</p>
     <a class="btn-apex" href="<c:url value="/advertising"/>">Przeglądaj ogłoszenia</a>
 </div>
 

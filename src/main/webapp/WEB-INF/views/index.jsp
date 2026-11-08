@@ -319,7 +319,7 @@
     .listing-price { color: var(--ink); font-family: "Manrope", sans-serif; font-size: 1.02rem; font-weight: 800; white-space: nowrap; }
     .listing-link { color: var(--orange); font-size: .78rem; font-weight: 700; text-decoration: none; }
     .listing-link:hover { color: var(--navy); }
-    .empty-state { padding: 72px 24px; text-align: center; border: 1px dashed #cbd2d4; border-radius: 12px; background: #fff; }
+    .empty-state { padding: 72px 24px; text-align: center; border: 1px dashed var(--orange); border-radius: 12px; background: #fff;}
     .empty-state h2 { color: var(--navy); font-size: 1.4rem; }
     .empty-state p { color: var(--muted); }
     @media (max-width: 650px) {
@@ -538,7 +538,6 @@
     </c:when>
     <c:otherwise>
         <div class="empty-state">
-            <p class="eyebrow">Brak wyników</p>
             <h2>Nie znaleźliśmy ofert dla tych filtrów.</h2>
             <p>Spróbuj zmienić zakres ceny, przebiegu albo wybrać inną kategorię.</p>
             <a href="<c:url value="/"/>" class="btn-apex">Wyczyść filtry</a>

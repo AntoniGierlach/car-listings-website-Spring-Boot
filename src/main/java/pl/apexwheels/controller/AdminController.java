@@ -41,13 +41,8 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/advertising/remove/{id}", method = RequestMethod.GET)
-    public String formRemove(@PathVariable Long id, Model model) {
-        Advertising advertising = advertisingDao.findById(id);
-        if (advertising == null) {
-            return "redirect:/admin/users/list?tab=advertising";
-        }
-        model.addAttribute("advertising", advertising);
-        return "admin/advertising-remove";
+    public String formRemove() {
+        return "redirect:/admin/users/list?tab=advertising";
     }
 
     @RequestMapping(value = "/advertising/remove/{id}", method = RequestMethod.POST)
@@ -60,13 +55,8 @@ public class AdminController {
     }
 
     @GetMapping("/users/remove/{id}")
-    public String formRemoveUser(@PathVariable Long id, Model model) {
-        User user = findUser(id);
-        if (user == null || isAdmin(user)) {
-            return "redirect:/admin/users/list";
-        }
-        model.addAttribute("user", user);
-        return "admin/user-remove";
+    public String formRemoveUser() {
+        return "redirect:/admin/users/list?tab=users";
     }
 
     @PostMapping("/users/remove/{id}")

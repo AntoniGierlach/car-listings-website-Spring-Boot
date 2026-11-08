@@ -59,6 +59,24 @@
         gap: 20px;
     }
 
+    .my-listings-empty {
+        padding: clamp(36px, 7vw, 72px) 24px;
+        border: 1px dashed var(--orange);
+        border-radius: 12px;
+        background: var(--surface);
+        text-align: center;
+    }
+
+    .my-listings-empty h2 {
+        margin-bottom: 10px;
+        color: var(--navy);
+    }
+
+    .my-listings-empty > p:not(.eyebrow) {
+        margin-bottom: 22px;
+        color: var(--muted);
+    }
+
     .my-listing-card {
         position: relative;
         display: flex;
@@ -272,16 +290,17 @@
         <p class="my-listings-note">Zarządzaj swoimi ofertami, sprawdzaj ich szczegóły i szybko aktualizuj dane samochodów.</p>
     </div>
 
-    <div class="my-listings-toolbar">
-        <span class="my-listings-count"><strong><c:out value="${items.size()}"/></strong> aktywnych ogłoszeń</span>
-        <a href="<c:url value="/user/advertising/create"/>" class="btn-apex">
-            <i data-lucide="plus" aria-hidden="true"></i> Dodaj ogłoszenie
-        </a>
-    </div>
-
-    <div class="my-listings-grid">
-        <c:forEach items="${items}" var="item">
-            <article class="my-listing-card js-listing-card"
+    <c:choose>
+        <c:when test="${not empty items}">
+            <div class="my-listings-toolbar">
+                <span class="my-listings-count"><strong><c:out value="${items.size()}"/></strong> aktywnych ogłoszeń</span>
+                <a href="<c:url value="/user/advertising/create"/>" class="btn-apex">
+                    <i data-lucide="plus" aria-hidden="true"></i> Dodaj ogłoszenie
+                </a>
+            </div>
+            <div class="my-listings-grid">
+                <c:forEach items="${items}" var="item">
+                    <article class="my-listing-card js-listing-card"
                      data-details-url="<c:url value="/advertising/details/${item.id}"/>">
                 <a class="my-listing-card-link"
                    href="<c:url value="/advertising/details/${item.id}"/>"
@@ -322,14 +341,27 @@
                                class="btn btn-sm btn-outline-secondary">Szczegóły</a>
                             <a href="<c:url value="/user/advertising/update/${item.id}"/>"
                                class="btn btn-sm btn-outline-secondary">Edytuj</a>
-                            <a href="<c:url value="/user/advertising/remove/${item.id}"/>"
-                               class="btn btn-sm btn-outline-danger">Usuń</a>
+                            <button type="button" class="btn btn-sm btn-outline-danger"
+                                    data-delete-action="<c:url value="/user/advertising/remove/${item.id}"/>"
+                                    data-delete-label="ogłoszenie: <c:out value="${item.title}"/>">Usuń</button>
                         </div>
                     </div>
                 </div>
-            </article>
-        </c:forEach>
-    </div>
+                    </article>
+                </c:forEach>
+            </div>
+        </c:when>
+        <c:otherwise>
+            <section class="my-listings-empty" role="status">
+                <h2>Nie masz jeszcze ogłoszeń</h2>
+                <p>Dodaj pierwszą ofertę, aby rozpocząć zarządzanie swoimi ogłoszeniami.</p>
+                <a href="<c:url value="/user/advertising/create"/>" class="btn-apex">
+                    <i data-lucide="plus" aria-hidden="true"></i> Dodaj ogłoszenie
+                </a>
+            </section>
+        </c:otherwise>
+    </c:choose>
 </div>
 
+<jsp:include page="../fragments/confirm-delete-dialog.jsp"/>
 <jsp:include page="../fragments/footer.jsp"/>

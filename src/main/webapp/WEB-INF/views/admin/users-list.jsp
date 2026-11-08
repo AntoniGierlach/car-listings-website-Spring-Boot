@@ -103,40 +103,10 @@
 
     .admin-empty {
         padding: 32px 20px;
-        border: 1px dashed var(--line);
+        border: 1px dashed var(--orange);
         border-radius: 12px;
         color: var(--muted);
         text-align: center;
-    }
-
-    .admin-modal {
-        position: fixed;
-        z-index: 1050;
-        inset: 0;
-        display: none;
-        align-items: center;
-        justify-content: center;
-        padding: 20px;
-        background: rgba(8, 20, 34, .68);
-    }
-
-    .admin-modal.is-open {
-        display: flex;
-    }
-
-    .admin-modal__dialog {
-        width: min(100%, 480px);
-        border-radius: 16px;
-        padding: 28px;
-        background: #fff;
-        box-shadow: 0 24px 70px rgba(0, 0, 0, .25);
-    }
-
-    .admin-modal__actions {
-        display: flex;
-        justify-content: flex-end;
-        gap: 10px;
-        margin-top: 24px;
     }
 
     @media (max-width: 767.98px) {
@@ -232,7 +202,7 @@
                                                     </c:if>
                                                     <button type="button" class="btn btn-sm btn-outline-danger"
                                                             data-delete-action="<c:url value="/admin/users/remove/${user.id}"/>"
-                                                            data-delete-label="użytkownika: <c:out value="${user.username}"/>">Usuń</button>
+                                                            data-delete-label="konto użytkownika wraz z jego ogłoszeniami: <c:out value="${user.username}"/>">Usuń</button>
                                                 </div>
                                             </td>
                                         </tr>
@@ -307,20 +277,7 @@
     </div>
 </main>
 
-<div class="admin-modal" data-delete-modal role="dialog" aria-modal="true"
-     aria-labelledby="delete-modal-title" aria-hidden="true">
-    <div class="admin-modal__dialog" role="document">
-        <h2 id="delete-modal-title" class="h4">Potwierdzenie usunięcia</h2>
-        <p data-delete-message class="mb-0"></p>
-        <form method="post" data-delete-form>
-            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
-            <div class="admin-modal__actions">
-                <button type="button" class="btn btn-secondary" data-delete-cancel>Anuluj</button>
-                <button type="submit" class="btn btn-danger" name="remove" value="Tak">Tak, usuń</button>
-            </div>
-        </form>
-    </div>
-</div>
+<jsp:include page="../fragments/confirm-delete-dialog.jsp"/>
 
 <script>
     (function () {
@@ -356,38 +313,6 @@
 
         selectTab(initialTab, false);
 
-        var modal = document.querySelector('[data-delete-modal]');
-        var deleteForm = modal.querySelector('[data-delete-form]');
-        var deleteMessage = modal.querySelector('[data-delete-message]');
-        var cancelButton = modal.querySelector('[data-delete-cancel]');
-        var lastFocusedElement;
-
-        function closeDeleteModal() {
-            modal.classList.remove('is-open');
-            modal.setAttribute('aria-hidden', 'true');
-            if (lastFocusedElement) lastFocusedElement.focus();
-        }
-
-        dashboard.querySelectorAll('[data-delete-action]').forEach(function (button) {
-            button.addEventListener('click', function () {
-                lastFocusedElement = button;
-                deleteForm.setAttribute('action', button.getAttribute('data-delete-action'));
-                deleteMessage.textContent = 'Czy na pewno chcesz usunąć ' + button.getAttribute('data-delete-label') + '?';
-                modal.classList.add('is-open');
-                modal.setAttribute('aria-hidden', 'false');
-                cancelButton.focus();
-            });
-        });
-
-        cancelButton.addEventListener('click', closeDeleteModal);
-        modal.addEventListener('click', function (event) {
-            if (event.target === modal) closeDeleteModal();
-        });
-        document.addEventListener('keydown', function (event) {
-            if (event.key === 'Escape' && modal.classList.contains('is-open')) {
-                closeDeleteModal();
-            }
-        });
     }());
 </script>
 

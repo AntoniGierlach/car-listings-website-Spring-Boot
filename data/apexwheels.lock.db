@@ -1,6 +1,6 @@
 #FileLock
-#Sun Nov 08 16:22:16 CET 2026
+#Sun Nov 08 18:39:09 CET 2026
 hostName=Antek
-id=1a1bbc0cb5f006db3b3fe02184a5f93cf486353688f
+id=1a1bc3e1d1a7c95432229c68f13a929d69dc681afdc
 method=file
-server=192.168.100.83\:52445
+server=192.168.100.83\:51744

@@ -13,6 +13,7 @@ import pl.apexwheels.model.Brand;
 import pl.apexwheels.model.Category;
 import pl.apexwheels.model.Role;
 import pl.apexwheels.model.User;
+import pl.apexwheels.service.CarApiMakesSeeder;
 import pl.apexwheels.service.RoleService;
 import pl.apexwheels.service.UserService;
 
@@ -25,13 +26,17 @@ public class ApexWheelsApplication {
     @Value("${app.demo-data.enabled:false}")
     private boolean demoDataEnabled;
 
+    @Value("${app.carapi.makes-seeding-enabled:true}")
+    private boolean carApiMakesSeedingEnabled;
+
     public static void main(String[] args) {
         SpringApplication.run(ApexWheelsApplication.class, args);
     }
 
     @Bean
     CommandLineRunner init(UserService userService, RoleService roleService,
-                           BrandDao brandDao, CategoryDao categoryDao, AdvertisingDao advertisingDao) {
+                           BrandDao brandDao, CategoryDao categoryDao, AdvertisingDao advertisingDao,
+                           CarApiMakesSeeder carApiMakesSeeder) {
         return (args) -> {
 
             if (roleService.findByName("ROLE_ADMIN") == null) {
@@ -54,6 +59,10 @@ public class ApexWheelsApplication {
                 userService.saveAdmin(user);
             }
 
+            if (carApiMakesSeedingEnabled) {
+                carApiMakesSeeder.seed(brandDao);
+            }
+
             if (demoDataEnabled) {
                 removeListingsWithoutImages(advertisingDao);
                 seedDemoListings(userService.findByUsername("admin"), brandDao, categoryDao, advertisingDao);
@@ -73,6 +82,10 @@ public class ApexWheelsApplication {
         Category suv = category(categoryDao, "SUV");
         Category coupe = category(categoryDao, "Coupe");
         Category hatchback = category(categoryDao, "Hatchback");
+        Category kombi = category(categoryDao, "Kombi");
+        Category roadster = category(categoryDao, "Roadster");
+        Category van = category(categoryDao, "Van");
+        Category pickup = category(categoryDao, "Pickup");
 
         Brand acura = brand(brandDao, "Acura");
         Brand audi = brand(brandDao, "Audi");

@@ -357,6 +357,15 @@
         .page-container .accordion-item { background: var(--surface); }
         .page-container .accordion-button { color: var(--navy); font-weight: 700; }
         .page-container .accordion-button:not(.collapsed) { background: var(--orange-soft); color: var(--navy); }
+        .empty-state {
+            padding: 72px 24px;
+            border: 1px dashed var(--orange);
+            border-radius: 12px;
+            background: #fff;
+            text-align: center;
+        }
+        .empty-state h2 { color: var(--navy); font-size: 1.4rem; }
+        .empty-state p { color: var(--muted); }
         .site-footer {
             max-width: 1440px;
             margin: 0 auto;

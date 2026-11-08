@@ -120,7 +120,6 @@
 
 <div class="listing-intro">
     <div><p class="eyebrow">ApexWheels / ulubione</p><h1>Twoje <em>ulubione</em> oferty.</h1></div>
-    <p class="listing-note">Zapisane samochody są przypisane do Twojego konta i dostępne po zalogowaniu na dowolnym urządzeniu.</p>
 </div>
 
 <c:if test="${not empty favoriteError}">
@@ -172,8 +171,8 @@
     </c:when>
     <c:otherwise>
         <div class="empty-state">
-            <p class="eyebrow">Brak zapisanych ofert</p>
-            <h2>Dodaj samochody, które chcesz mieć pod ręką.</h2>
+            <h2>Nie masz jeszcze ulubionych samochodów.</h2>
+            <p>Przeglądaj ogłoszenia i zapisuj oferty, do których chcesz wrócić.</p>
             <a class="btn-apex" href="<c:url value="/advertising"/>">Przeglądaj ogłoszenia</a>
         </div>
     </c:otherwise>

@@ -1,6 +1,7 @@
 package pl.apexwheels.controller;
 
 import lombok.RequiredArgsConstructor;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -33,10 +34,13 @@ public class AdvertisingController {
     }
 
     @GetMapping("/details/{id}")
-    public String details(@PathVariable("id") Long advertisingId, Model model) {
+    public String details(@PathVariable("id") Long advertisingId, Model model,
+                          HttpServletResponse response) {
         Advertising item = advertisingDao.findById(advertisingId);
         if (item == null) {
-            return "no-results";
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            model.addAttribute("status", HttpServletResponse.SC_NOT_FOUND);
+            return "error";
         }
         model.addAttribute("item", item);
         return "advertising-details";
@@ -104,23 +108,17 @@ public class AdvertisingController {
     @RequestMapping("/category/{id}")
     public String findAllByCategoryId(@PathVariable Long id, Model model) {
         List<Advertising> list = advertisingDao.findAllWithCategory(categoryDao.findById(id));
-        model.addAttribute("items", advertisingDao.findAllWithCategory(categoryDao.findById(id)));
+        model.addAttribute("items", list);
         model.addAttribute("showSearchSidebar", true);
-        if (list.size() != 0) {
-            return "index";
-        }
-        return "no-results";
+        return "index";
     }
 
     @RequestMapping("/brand/{id}")
     public String findAllByBrandId(@PathVariable Long id, Model model) {
         List<Advertising> list = advertisingDao.findAllWithBrand(brandDao.findById(id));
-        model.addAttribute("items", advertisingDao.findAllWithBrand(brandDao.findById(id)));
+        model.addAttribute("items", list);
         model.addAttribute("showSearchSidebar", true);
-        if (list.size() != 0) {
-            return "index";
-        }
-        return "no-results";
+        return "index";
     }
 
     @RequestMapping(value = "/mileage")
