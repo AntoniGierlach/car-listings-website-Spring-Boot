@@ -78,6 +78,78 @@ public class AdvertisingDao {
         return query.getResultList();
     }
 
+    public List<Advertising> search(Long brandId, Long categoryId, Integer minPrice, Integer maxPrice,
+                                    Integer minMileage, Integer maxMileage, String fuelType,
+                                    String vehicleCondition, String damageStatus, String sort) {
+        StringBuilder jpql = new StringBuilder("SELECT a FROM Advertising a WHERE 1 = 1");
+        if (brandId != null) {
+            jpql.append(" AND a.brand.id = :brandId");
+        }
+        if (categoryId != null) {
+            jpql.append(" AND a.category.id = :categoryId");
+        }
+        if (minPrice != null) {
+            jpql.append(" AND a.price >= :minPrice");
+        }
+        if (maxPrice != null) {
+            jpql.append(" AND a.price <= :maxPrice");
+        }
+        if (minMileage != null) {
+            jpql.append(" AND a.mileage >= :minMileage");
+        }
+        if (maxMileage != null) {
+            jpql.append(" AND a.mileage <= :maxMileage");
+        }
+        if (fuelType != null && !fuelType.isBlank()) {
+            jpql.append(" AND a.fuelType = :fuelType");
+        }
+        if (vehicleCondition != null && !vehicleCondition.isBlank()) {
+            jpql.append(" AND a.vehicleCondition = :vehicleCondition");
+        }
+        if (damageStatus != null && !damageStatus.isBlank()) {
+            jpql.append(" AND a.damageStatus = :damageStatus");
+        }
+
+        jpql.append(" ORDER BY ");
+        jpql.append(switch (sort == null ? "" : sort) {
+            case "price-asc" -> "a.price ASC";
+            case "price-desc" -> "a.price DESC";
+            case "mileage-asc" -> "a.mileage ASC";
+            case "mileage-desc" -> "a.mileage DESC";
+            default -> "a.updatedAt DESC";
+        });
+
+        Query query = entityManager.createQuery(jpql.toString());
+        if (brandId != null) {
+            query.setParameter("brandId", brandId);
+        }
+        if (categoryId != null) {
+            query.setParameter("categoryId", categoryId);
+        }
+        if (minPrice != null) {
+            query.setParameter("minPrice", minPrice);
+        }
+        if (maxPrice != null) {
+            query.setParameter("maxPrice", maxPrice);
+        }
+        if (minMileage != null) {
+            query.setParameter("minMileage", minMileage);
+        }
+        if (maxMileage != null) {
+            query.setParameter("maxMileage", maxMileage);
+        }
+        if (fuelType != null && !fuelType.isBlank()) {
+            query.setParameter("fuelType", fuelType);
+        }
+        if (vehicleCondition != null && !vehicleCondition.isBlank()) {
+            query.setParameter("vehicleCondition", vehicleCondition);
+        }
+        if (damageStatus != null && !damageStatus.isBlank()) {
+            query.setParameter("damageStatus", damageStatus);
+        }
+        return query.getResultList();
+    }
+
     public void create(Advertising advertising) {
         entityManager.persist(advertising);
     }

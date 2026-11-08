@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <jsp:include page="fragments/header.jsp"/>
 
@@ -55,6 +56,7 @@
     .sort-links { display: none; }
     .listing-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(245px, 1fr)); gap: 20px; }
     .listing-card {
+        position: relative;
         min-width: 0;
         overflow: hidden;
         border: 1px solid var(--line);
@@ -66,12 +68,41 @@
     .listing-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
     .listing-image {
         position: relative;
+        width: 100%;
         height: 190px;
         overflow: hidden;
         background: #dce1e2;
     }
-    .listing-image img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s ease; }
+    .listing-image img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        transition: transform .5s ease;
+    }
     .listing-card:hover .listing-image img { transform: scale(1.04); }
+    .listing-card-link {
+        position: absolute;
+        z-index: 0;
+        inset: 0;
+        border-radius: inherit;
+    }
+    .listing-card-link:focus-visible {
+        outline: 3px solid var(--orange);
+        outline-offset: -3px;
+    }
+    .listing-card > .listing-image,
+    .listing-card > .listing-body {
+        position: relative;
+        z-index: 1;
+    }
+    .listing-card .listing-body form,
+    .listing-card .listing-body button,
+    .listing-card .listing-body a:not(.listing-card-link) {
+        position: relative;
+        z-index: 2;
+    }
     .no-image {
         width: 100%; height: 100%; display: grid; place-items: center;
         color: #78838a; font-size: .8rem; letter-spacing: .05em; text-transform: uppercase;
@@ -107,6 +138,7 @@
         <p class="eyebrow">ApexWheels / kolekcja</p>
         <h1>Samochód, który<br><em>pasuje do Ciebie.</em></h1>
     </div>
+
     <p class="listing-note">Wyselekcjonowane ogłoszenia. Przejrzyste dane. Bez zbędnego szumu — tylko dobre samochody.</p>
 </div>
 
@@ -114,25 +146,36 @@
     <span class="result-count"><strong><c:out value="${items.size()}"/></strong> dostępnych ogłoszeń</span>
     <div class="sort-wrap">
         <label for="sort-links">Sortuj:</label>
-        <select id="sort-links" class="sort-select" onchange="if(this.value) window.location.href=this.value">
-            <option value="/advertising/sort/date">Najnowsze</option>
-            <option value="/advertising/sort/priceMin">Cena: rosnąco</option>
-            <option value="/advertising/sort/priceMax">Cena: malejąco</option>
-            <option value="/advertising/sort/mileageMin">Najniższy przebieg</option>
-            <option value="/advertising/sort/mileageMax">Najwyższy przebieg</option>
+        <select id="sort-links" class="sort-select" onchange="applySort(this.value)">
+            <option value="date" ${empty param.sort || param.sort == 'date' ? 'selected' : ''}>Najnowsze</option>
+            <option value="price-asc" ${param.sort == 'price-asc' ? 'selected' : ''}>Cena: rosnąco</option>
+            <option value="price-desc" ${param.sort == 'price-desc' ? 'selected' : ''}>Cena: malejąco</option>
+            <option value="mileage-asc" ${param.sort == 'mileage-asc' ? 'selected' : ''}>Najniższy przebieg</option>
+            <option value="mileage-desc" ${param.sort == 'mileage-desc' ? 'selected' : ''}>Najwyższy przebieg</option>
         </select>
     </div>
 </div>
+
+<script>
+    function applySort(sort) {
+        const params = new URLSearchParams(window.location.search);
+        params.set("sort", sort);
+        window.location.href = "<c:url value="/advertising/search"/>" + "?" + params.toString();
+    }
+</script>
 
 <c:choose>
     <c:when test="${not empty items}">
         <div class="listing-grid">
             <c:forEach items="${items}" var="item">
                 <article class="listing-card">
+                    <a class="listing-card-link"
+                       href="<c:url value="/advertising/details/${item.id}"/>"
+                       aria-label="Zobacz ogłoszenie: <c:out value="${item.title}"/>"></a>
                     <div class="listing-image">
                         <c:if test="${not empty item.image}">
-                            <c:url var="imageUrl" value="/images/${item.image}"/>
-                            <img src="<c:out value="${imageUrl}"/>" alt="<c:out value="${item.title}"/>">
+                            <c:url var="imageUrl" value="/images/thumbs/${item.image}"/>
+                            <img src="<c:out value="${imageUrl}"/>" alt="<c:out value="${item.title}"/>" loading="lazy" decoding="async" width="800" height="500">
                         </c:if>
                         <c:if test="${empty item.image}">
                             <div class="no-image">Brak zdjęcia</div>
@@ -143,11 +186,27 @@
                         <h2><c:out value="${item.title}"/></h2>
                         <div class="listing-meta">
                             <span><c:out value="${item.year_of_production}"/> r.</span>
-                            <span><c:out value="${item.mileage}"/> km</span>
+                            <span><fmt:formatNumber value="${item.mileage}" groupingUsed="true"/> km</span>
+                            <c:if test="${not empty item.fuelType}"><span><c:out value="${item.fuelType}"/></span></c:if>
                         </div>
                         <div class="listing-footer">
-                            <span class="listing-price"><c:out value="${item.price}"/> zł</span>
-                            <a class="listing-link" href="<c:url value="/advertising/details/${item.id}"/>">Zobacz szczegóły&nbsp; →</a>
+                            <span class="listing-price"><fmt:formatNumber value="${item.price}" groupingUsed="true"/> zł</span>
+                            <div class="d-flex align-items-center gap-2">
+                                <c:choose>
+                                    <c:when test="${pageContext.request.isUserInRole('USER') || pageContext.request.isUserInRole('ADMIN')}">
+                                        <form action="<c:url value="/user/favorites/${item.id}"/>" method="post" class="d-inline">
+                                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+                                            <button type="submit" class="btn btn-sm btn-outline-secondary js-favorite"
+                                                    data-listing-id="${item.id}" aria-label="Dodaj do ulubionych">
+                                                <i data-lucide="heart" aria-hidden="true"></i>
+                                            </button>
+                                        </form>
+                                    </c:when>
+                                    <c:otherwise><a href="<c:url value="/login"/>" class="btn btn-sm btn-outline-secondary" aria-label="Zaloguj się, aby zapisać"><i data-lucide="heart" aria-hidden="true"></i></a></c:otherwise>
+                                </c:choose>
+                                <button type="button" class="btn btn-sm btn-outline-secondary js-compare"
+                                        data-listing-id="${item.id}" aria-label="Dodaj do porównania"><i data-lucide="arrow-left-right" aria-hidden="true"></i></button>
+                            </div>
                         </div>
                     </div>
                 </article>

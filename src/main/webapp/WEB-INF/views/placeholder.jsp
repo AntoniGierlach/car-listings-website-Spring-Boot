@@ -1,4 +1,4 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+﻿<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <jsp:include page="fragments/header.jsp"/>
 
@@ -42,15 +42,11 @@
                                  class="rounded-circle border border-white">
                         </li>
                         <li class="d-flex align-items-center me-3">
-                            <svg class="bi me-2" width="1em" height="1em">
-                                <use xlink:href="#geo-fill"/>
-                            </svg>
+                            <i data-lucide="map-pin" class="lucide-icon" aria-hidden="true"></i>
                             <small>Lorem</small>
                         </li>
                         <li class="d-flex align-items-center">
-                            <svg class="bi me-2" width="1em" height="1em">
-                                <use xlink:href="#calendar3"/>
-                            </svg>
+                            <i data-lucide="calendar-days" class="lucide-icon" aria-hidden="true"></i>
                             <small>3d</small>
                         </li>
                     </ul>
@@ -70,15 +66,11 @@
                                  class="rounded-circle border border-white">
                         </li>
                         <li class="d-flex align-items-center me-3">
-                            <svg class="bi me-2" width="1em" height="1em">
-                                <use xlink:href="#geo-fill"/>
-                            </svg>
+                            <i data-lucide="map-pin" class="lucide-icon" aria-hidden="true"></i>
                             <small>Lorem</small>
                         </li>
                         <li class="d-flex align-items-center">
-                            <svg class="bi me-2" width="1em" height="1em">
-                                <use xlink:href="#calendar3"/>
-                            </svg>
+                            <i data-lucide="calendar-days" class="lucide-icon" aria-hidden="true"></i>
                             <small>4d</small>
                         </li>
                     </ul>
@@ -98,15 +90,11 @@
                                  class="rounded-circle border border-white">
                         </li>
                         <li class="d-flex align-items-center me-3">
-                            <svg class="bi me-2" width="1em" height="1em">
-                                <use xlink:href="#geo-fill"/>
-                            </svg>
+                            <i data-lucide="map-pin" class="lucide-icon" aria-hidden="true"></i>
                             <small>Lorem</small>
                         </li>
                         <li class="d-flex align-items-center">
-                            <svg class="bi me-2" width="1em" height="1em">
-                                <use xlink:href="#calendar3"/>
-                            </svg>
+                            <i data-lucide="calendar-days" class="lucide-icon" aria-hidden="true"></i>
                             <small>5d</small>
                         </li>
                     </ul>

@@ -1,6 +1,7 @@
 package pl.apexwheels.model;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
@@ -30,7 +31,7 @@ public class Advertising {
     private String description;
 
     @Size(max = 255)
-    @Pattern(regexp = "[A-Za-z0-9._-]+")
+    @Pattern(regexp = "[A-Za-z0-9._-]*")
     private String image;
 
     @NotNull
@@ -48,6 +49,15 @@ public class Advertising {
     @NotNull
     private Integer phone_number;
 
+    @Column(length = 30)
+    private String fuelType;
+
+    @Column(length = 20)
+    private String vehicleCondition;
+
+    @Column(length = 20)
+    private String damageStatus;
+
     @NotNull
     @ManyToOne
     private Category category;
@@ -57,6 +67,7 @@ public class Advertising {
     private Brand brand;
 
     @ManyToOne
+    @EqualsAndHashCode.Exclude
     private User user;
 
     private LocalDate updatedAt;

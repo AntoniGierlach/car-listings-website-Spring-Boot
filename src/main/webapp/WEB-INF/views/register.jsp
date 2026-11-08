@@ -1,125 +1,126 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!doctype html>
-<html lang="en">
+<html lang="pl">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-    <meta name="generator" content="Hugo 0.104.2">
-    <title>Zarejestruj się</title>
-
-    <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/sign-in/">
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-
-
+    <meta name="description" content="Utwórz konto ApexWheels i zarządzaj swoimi ogłoszeniami.">
+    <title>Utwórz konto | ApexWheels</title>
+    <link rel="icon" href="${pageContext.request.contextPath}/icons/tire.png" type="image/png">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
     <style>
-        @media (min-width: 768px) {
-            .bd-placeholder-img-lg {
-                font-size: 3.5rem;
-            }
-        }
-
-        .bi {
-            vertical-align: -.125em;
-            fill: currentColor;
-        }
-
-        .nav-scroller .nav {
-            display: flex;
-            flex-wrap: nowrap;
-            padding-bottom: 1rem;
-            margin-top: -1px;
-            overflow-x: auto;
-            text-align: center;
-            white-space: nowrap;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        body {
-            height: 100%;
-        }
-
-        body {
-            display: flex;
-            align-items: center;
-            padding-top: 40px;
-            padding-bottom: 40px;
-            background-color: #f5f5f5;
-        }
-
-        .form-signin {
-            max-width: 330px;
-            padding: 15px;
-        }
-
-        .form-signin .form-floating:focus-within {
-            z-index: 2;
-        }
-
-        .form-signin input[type="email"] {
-            margin-bottom: -1px;
-            border-bottom-right-radius: 0;
-            border-bottom-left-radius: 0;
-        }
-
-        .form-signin input[type="password"] {
-            margin-bottom: 10px;
-            border-top-left-radius: 0;
-            border-top-right-radius: 0;
+        :root { --ink:#17212b; --muted:#74808a; --line:#e6e9ec; --canvas:#f7f8f6; --surface:#fff; --navy:#102a43; --orange:#e27d45; --orange-soft:#fff1e8; }
+        * { box-sizing: border-box; }
+        html, body { min-height: 100%; }
+        body { margin:0; background:var(--canvas); color:var(--ink); font-family:"DM Sans",sans-serif; -webkit-font-smoothing:antialiased; }
+        h1, h2, .brand-name { font-family:"Manrope",sans-serif; }
+        a { color:inherit; }
+        .auth-shell { display:grid; grid-template-columns:minmax(280px,.85fr) minmax(340px,1.15fr); min-height:100vh; }
+        .auth-intro { display:flex; flex-direction:column; justify-content:space-between; padding:clamp(28px,5vw,68px); background:var(--navy); color:#fff; }
+        .brand { display:inline-flex; align-items:center; gap:11px; width:fit-content; color:#fff; text-decoration:none; }
+        .brand-icon { width:40px; height:40px; color:var(--orange); stroke-width:2.2; }
+        .brand-name { font-size:1.14rem; letter-spacing:-.03em; }
+        .brand-name span { color:var(--orange); }
+        .intro-copy { max-width:430px; margin:auto 0; padding:48px 0; }
+        .eyebrow { margin:0 0 16px; color:var(--orange); font-size:.72rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase; }
+        .intro-copy h1 { margin:0 0 18px; font-size:clamp(2rem,4vw,3.6rem); line-height:1.06; letter-spacing:-.06em; }
+        .intro-copy p { margin:0; max-width:370px; color:rgba(255,255,255,.68); line-height:1.7; }
+        .intro-footer { color:rgba(255,255,255,.48); font-size:.78rem; }
+        .auth-content { display:flex; align-items:center; justify-content:center; padding:32px clamp(20px,6vw,96px); }
+        .auth-card { width:min(100%,440px); }
+        .mobile-brand { display:none; }
+        .auth-heading { margin-bottom:26px; }
+        .auth-heading h2 { margin:0 0 8px; color:var(--navy); font-size:clamp(1.7rem,3vw,2.25rem); letter-spacing:-.05em; }
+        .auth-heading p { margin:0; color:var(--muted); line-height:1.6; }
+        .field { margin-bottom:15px; }
+        .field label { display:block; margin-bottom:7px; color:var(--navy); font-size:.82rem; font-weight:700; }
+        .field input { display:block; width:100%; min-height:46px; padding:10px 13px; border:1px solid var(--line); border-radius:8px; background:var(--surface); color:var(--ink); font:inherit; }
+        .field input:focus { outline:0; border-color:var(--orange); box-shadow:0 0 0 3px rgba(226,125,69,.15); }
+        .field-error { margin-top:6px; color:#b42318; font-size:.78rem; }
+        .auth-note { margin:18px 0 0; color:var(--muted); font-size:.78rem; line-height:1.55; }
+        .auth-submit { width:100%; min-height:48px; margin-top:10px; border:0; border-radius:8px; background:var(--orange); color:#fff; font:inherit; font-weight:700; cursor:pointer; }
+        .auth-submit:hover, .auth-submit:focus-visible { background:#d66b34; }
+        .auth-links { display:flex; justify-content:space-between; gap:16px; margin-top:22px; color:var(--muted); font-size:.84rem; }
+        .auth-links a { color:var(--orange); font-weight:700; text-decoration:none; }
+        .auth-links a:hover, .auth-links a:focus-visible { color:var(--navy); text-decoration:underline; }
+        @media (max-width:760px) {
+            .auth-shell { display:block; }
+            .auth-intro { display:none; }
+            .auth-content { min-height:100vh; align-items:flex-start; padding:28px 20px 36px; }
+            .mobile-brand { display:inline-flex; margin-bottom:56px; }
         }
     </style>
 </head>
-<body class="text-center">
-
-<main class="form-signin w-100 m-auto">
-    <form:form method="post" modelAttribute="registerDto">
-        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-person-plus"
-             viewBox="0 0 16 16">
-            <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
-            <path fill-rule="evenodd"
-                  d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z"/>
-        </svg>
-        <h1 class="h3 mb-3 fw-normal">Zarejestruj się</h1>
-
-
-        <div class="form-floating">
-            <input type="text" id="firstName" name="name" class="form-control" placeholder="First name"
-                   required="required" autofocus="autofocus">
-            <label for="firstName">Imię</label>
-            <form:errors path="name"/>
+<body>
+<main class="auth-shell">
+    <section class="auth-intro" aria-label="Informacje o ApexWheels">
+        <a class="brand" href="<c:url value="/"/>" aria-label="ApexWheels — strona główna">
+            <i data-lucide="car-front" class="brand-icon" aria-hidden="true"></i>
+            <span class="brand-name">APEX<span>WHEELS</span></span>
+        </a>
+        <div class="intro-copy">
+            <p class="eyebrow">Dołącz do ApexWheels</p>
+            <h1>Znajdź swój następny samochód bez zbędnego szumu.</h1>
+            <p>Jedno konto wystarczy, aby zapisywać oferty, porównywać samochody i publikować własne ogłoszenia.</p>
         </div>
-
-        <div class="form-floating">
-            <input type="text" id="inputUsername" name="username" class="form-control" placeholder="Username"
-                   required="required">
-            <label for="inputUsername">Nazwa użytkownika</label>
-            <form:errors path="username"/>
+        <p class="intro-footer">&copy; ApexWheels 2026</p>
+    </section>
+    <section class="auth-content">
+        <div class="auth-card">
+            <a class="brand mobile-brand" href="<c:url value="/"/>" aria-label="ApexWheels — strona główna">
+                <i data-lucide="car-front" class="brand-icon" aria-hidden="true"></i>
+                <span class="brand-name" style="color:var(--navy);">APEX<span>WHEELS</span></span>
+            </a>
+            <div class="auth-heading">
+                <h2>Utwórz konto</h2>
+                <p>Zacznij wygodniej zarządzać swoimi ofertami i ulubionymi samochodami.</p>
+            </div>
+            <form:form method="post" modelAttribute="registerDto">
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+                <div class="field">
+                    <label for="firstName">Imię</label>
+                    <input type="text" id="firstName" name="name" autocomplete="given-name" value="<c:out value="${registerDto.name}"/>" required autofocus>
+                    <form:errors path="name" cssClass="field-error" element="div"/>
+                </div>
+                <div class="field">
+                    <label for="lastName">Nazwisko</label>
+                    <input type="text" id="lastName" name="lastName" autocomplete="family-name" value="<c:out value="${registerDto.lastName}"/>" required>
+                    <form:errors path="lastName" cssClass="field-error" element="div"/>
+                </div>
+                <div class="field">
+                    <label for="inputUsername">Nazwa użytkownika (login)</label>
+                    <input type="text" id="inputUsername" name="username" autocomplete="username" value="<c:out value="${registerDto.username}"/>" required>
+                    <form:errors path="username" cssClass="field-error" element="div"/>
+                </div>
+                <div class="field">
+                    <label for="inputPassword">Hasło <span>(min. 6 znaków)</span></label>
+                    <input type="password" id="inputPassword" name="password" autocomplete="new-password" minlength="6" required>
+                    <form:errors path="password" cssClass="field-error" element="div"/>
+                </div>
+                <div class="field">
+                    <label for="confirmPassword">Potwierdź hasło</label>
+                    <input type="password" id="confirmPassword" name="confirm_password" autocomplete="new-password" minlength="6" required>
+                    <form:errors path="confirm_password" cssClass="field-error" element="div"/>
+                </div>
+                <form:errors path="passwordConfirmed" cssClass="field-error" element="div"/>
+                <p class="auth-note">Podając dane, tworzysz konto potrzebne do korzystania z funkcji dostępnych dla użytkowników.</p>
+                <button class="auth-submit" type="submit">Utwórz konto</button>
+            </form:form>
+            <div class="auth-links">
+                <span>Masz już konto?</span>
+                <a href="<c:url value="/login"/>">Zaloguj się</a>
+            </div>
+            <div class="auth-links">
+                <a href="<c:url value="/"/>"><i data-lucide="arrow-left" aria-hidden="true"></i> Wróć na stronę główną</a>
+            </div>
         </div>
-        <div class="form-floating">
-            <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password"
-                   required="required">
-            <label for="inputPassword">Hasło</label>
-            <form:errors path="password"/>
-        </div>
-
-        <div class="form-floating">
-            <input type="password" id="confirmPassword" name="confirm_password" class="form-control"
-                   placeholder="Confirm password" required="required">
-            <label for="confirmPassword">Potwierdź hasło</label>
-            <form:errors path="confirm_password"/>
-        </div>
-
-        <button class="w-100 btn btn-lg btn-primary" type="submit">Zarejestruj</button>
-    </form:form>
-
-    <div class="text-center">
-        <a class="d-block small mt-3" href="/login">Zaloguj się</a>
-        <p class="mt-5 mb-3 text-muted">&copy; Final Project 2022</p>
-    </div>
+    </section>
 </main>
+<script>lucide.createIcons();</script>
 </body>
 </html>

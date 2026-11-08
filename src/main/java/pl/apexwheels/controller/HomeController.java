@@ -33,28 +33,18 @@ public class HomeController {
         model.addAttribute("category", categoryDao.findAll());
         model.addAttribute("brand", brandDao.findAll());
         model.addAttribute("items", advertisingDao.findAll());
+        model.addAttribute("showSearchSidebar", true);
         return "index";
     }
 
     @RequestMapping(value = "/placeholder", method = RequestMethod.GET)
     public String placeholder(Model model) {
-        model.addAttribute("category", categoryDao.findAll());
-        model.addAttribute("brand", brandDao.findAll());
-        model.addAttribute("items", advertisingDao.findAll());
-        return "placeholder";
+        return "redirect:/about";
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login() {
         return "login";
-    }
-
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String login(@Valid BindingResult result, Errors errors) {
-        if (result.hasErrors()) {
-            return "login";
-        }
-        return "redirect:/";
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.GET)
@@ -69,9 +59,11 @@ public class HomeController {
         if (!result.hasErrors()) {
             user = userService.registerUser(registerDto);
             if (user != null) {
-                return "redirect:login";
+                return "redirect:/login";
             }
+            result.rejectValue("username", "username.exists", "To login jest już zajęte.");
         }
+        request.setAttribute("registerDto", registerDto);
         return "register";
     }
 }

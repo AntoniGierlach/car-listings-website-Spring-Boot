@@ -16,6 +16,9 @@ import pl.apexwheels.model.User;
 import pl.apexwheels.service.RoleService;
 import pl.apexwheels.service.UserService;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @SpringBootApplication
 public class ApexWheelsApplication {
 
@@ -45,15 +48,23 @@ public class ApexWheelsApplication {
 
                 User user = new User();
                 user.setName("Super user");
+                user.setLastName("Administrator");
                 user.setUsername("admin");
                 user.setPassword("admin");
                 userService.saveAdmin(user);
             }
 
-            if (demoDataEnabled && advertisingDao.findAll().isEmpty()) {
+            if (demoDataEnabled) {
+                removeListingsWithoutImages(advertisingDao);
                 seedDemoListings(userService.findByUsername("admin"), brandDao, categoryDao, advertisingDao);
             }
         };
+    }
+
+    private void removeListingsWithoutImages(AdvertisingDao advertisingDao) {
+        advertisingDao.findAll().stream()
+                .filter(item -> item.getImage() == null || item.getImage().isBlank())
+                .forEach(advertisingDao::remove);
     }
 
     private void seedDemoListings(User seller, BrandDao brandDao, CategoryDao categoryDao,
@@ -61,33 +72,88 @@ public class ApexWheelsApplication {
         Category sedan = category(categoryDao, "Sedan");
         Category suv = category(categoryDao, "SUV");
         Category coupe = category(categoryDao, "Coupe");
-        Category wagon = category(categoryDao, "Kombi");
+        Category hatchback = category(categoryDao, "Hatchback");
 
-        Brand bmw = brand(brandDao, "BMW");
+        Brand acura = brand(brandDao, "Acura");
         Brand audi = brand(brandDao, "Audi");
+        Brand bmw = brand(brandDao, "BMW");
+        Brand delorean = brand(brandDao, "DeLorean");
+        Brand ferrari = brand(brandDao, "Ferrari");
+        Brand honda = brand(brandDao, "Honda");
+        Brand jeep = brand(brandDao, "Jeep");
+        Brand lamborghini = brand(brandDao, "Lamborghini");
         Brand mercedes = brand(brandDao, "Mercedes-Benz");
-        Brand volvo = brand(brandDao, "Volvo");
-        Brand porsche = brand(brandDao, "Porsche");
+        Brand nissan = brand(brandDao, "Nissan");
+        Brand opel = brand(brandDao, "Opel");
+        Brand tesla = brand(brandDao, "Tesla");
+        Brand toyota = brand(brandDao, "Toyota");
+        Brand volkswagen = brand(brandDao, "Volkswagen");
 
-        listing(advertisingDao, seller, "M340i xDrive", bmw, sedan, 2022, 34_500, 269_900,
-                "bmw-m340i.svg", "Sportowy sedan z napędem xDrive, pakietem M Sport i pełną historią serwisową.");
-        listing(advertisingDao, seller, "Q5 45 TFSI quattro", audi, suv, 2021, 48_200, 184_500,
-                "audi-q5.svg", "Komfortowy SUV premium z automatyczną skrzynią, panoramą i kamerą 360°.");
-        listing(advertisingDao, seller, "C 220 d AMG Line", mercedes, sedan, 2023, 18_900, 239_000,
-                "mercedes-c220.svg", "Elegancka limuzyna w wersji AMG Line. Samochód krajowy, bezwypadkowy.");
-        listing(advertisingDao, seller, "XC60 B5 Ultimate", volvo, suv, 2022, 27_800, 219_900,
-                "volvo-xc60.svg", "Bezpieczny i świetnie wyposażony SUV z jasnym wnętrzem oraz napędem AWD.");
-        listing(advertisingDao, seller, "911 Carrera 4S", porsche, coupe, 2020, 12_600, 589_000,
-                "porsche-911.svg", "Ikoniczne coupe w wyjątkowej konfiguracji. Dealer Porsche, gwarancja do 2027 roku.");
-        listing(advertisingDao, seller, "A6 Avant 40 TDI", audi, wagon, 2021, 61_400, 159_900,
-                "audi-a6.svg", "Przestronne kombi na co dzień — świetny balans osiągów, komfortu i ekonomii.");
-        listing(advertisingDao, seller, "X3 xDrive30i", bmw, suv, 2020, 72_100, 149_900,
-                "bmw-x3.svg", "Zadbany, dynamiczny SUV z bogatym wyposażeniem i udokumentowanym przebiegiem.");
-        listing(advertisingDao, seller, "E-Class E 200", mercedes, sedan, 2019, 84_700, 139_900,
-                "mercedes-e200.svg", "Klasyczna elegancja Mercedesa, komfortowe wnętrze i wzorowy stan techniczny.");
+        Set<String> existingImages = new HashSet<>();
+        advertisingDao.findAll().forEach(item -> {
+            if (item.getImage() != null) {
+                existingImages.add(item.getImage());
+            }
+        });
+
+        listing(advertisingDao, existingImages, seller, "NSX 3.5 V6", acura, coupe, "Benzyna", "Używany", "Nieuszkodzony",
+                2019, 18_400, 449_900, "acura-nsx.jpg",
+                "Dwumiejscowe coupe z napędem hybrydowym i centralnie umieszczonym silnikiem. Samochód dla entuzjasty.");
+        listing(advertisingDao, existingImages, seller, "TLX Type S", acura, sedan, "Benzyna", "Używany", "Nieuszkodzony",
+                2022, 24_800, 219_900, "acura-tlx.jpg",
+                "Dynamiczny sedan klasy premium z mocnym silnikiem, automatyczną skrzynią i kompletnym wyposażeniem.");
+        listing(advertisingDao, existingImages, seller, "A4 40 TFSI S line", audi, sedan, "Benzyna", "Używany", "Nieuszkodzony",
+                2021, 42_600, 139_900, "audi-a4.jpg",
+                "Zadbany sedan z pakietem S line, reflektorami LED i historią przeglądów.");
+        listing(advertisingDao, existingImages, seller, "e-tron 50 quattro", audi, suv, "Elektryczny", "Nowy", "Nieuszkodzony",
+                2023, 9, 249_900, "audi-e-tron.jpg",
+                "Cichy i praktyczny SUV elektryczny z napędem quattro oraz szybkim ładowaniem.");
+        listing(advertisingDao, existingImages, seller, "M3 Competition", bmw, sedan, "Benzyna", "Używany", "Nieuszkodzony",
+                2022, 29_700, 389_900, "bmw-m3.jpg",
+                "Sportowy sedan z sześciocylindrowym silnikiem, napędem na cztery koła i pakietem torowym.");
+        listing(advertisingDao, existingImages, seller, "DMC-12", delorean, coupe, "Benzyna", "Używany", "Nieuszkodzony",
+                1982, 76_500, 299_000, "delorean-dmc-12.jpg",
+                "Klasyczny samochód kolekcjonerski z charakterystycznym nadwoziem ze stali nierdzewnej.");
+        listing(advertisingDao, existingImages, seller, "LaFerrari", ferrari, coupe, "Hybryda", "Używany", "Nieuszkodzony",
+                2015, 6_800, 12_900_000, "ferrari-laferrari.jpg",
+                "Wyjątkowy hipersamochód w kolekcjonerskim stanie, z pełną dokumentacją pochodzenia.");
+        listing(advertisingDao, existingImages, seller, "Civic Si", honda, hatchback, "Benzyna", "Używany", "Nieuszkodzony",
+                2020, 38_900, 119_900, "honda-civic-si.jpg",
+                "Lekki i angażujący hatchback z manualną skrzynią, idealny do codziennej jazdy.");
+        listing(advertisingDao, existingImages, seller, "Wrangler Rubicon", jeep, suv, "Benzyna", "Używany", "Nieuszkodzony",
+                2021, 47_200, 189_900, "jeep-wrangler.jpg",
+                "Terenowy SUV z reduktorem, blokadami mostów i zdejmowanym dachem.");
+        listing(advertisingDao, existingImages, seller, "Aventador LP 780-4", lamborghini, coupe, "Benzyna", "Używany", "Nieuszkodzony",
+                2022, 3_900, 2_490_000, "lamborghini-aventador.jpg",
+                "Limitowana wersja z wolnossącym silnikiem V12 i włoskim charakterem.");
+        listing(advertisingDao, existingImages, seller, "AMG GT 63 S", mercedes, coupe, "Benzyna", "Używany", "Nieuszkodzony",
+                2021, 22_100, 699_000, "mercedes-gtr.jpg",
+                "Gran turismo AMG z czterema miejscami, napędem 4MATIC+ i luksusowym wnętrzem.");
+        listing(advertisingDao, existingImages, seller, "GT-R Nismo", nissan, coupe, "Benzyna", "Używany", "Nieuszkodzony",
+                2020, 15_700, 699_900, "nissan-r35-gtr.jpg",
+                "Japońskie coupe o wyczynowych osiągach, z pakietem Nismo i pełną historią serwisową.");
+        listing(advertisingDao, existingImages, seller, "Astra GTC", opel, hatchback, "Benzyna", "Używany", "Uszkodzony",
+                2018, 63_400, 64_900, "opel-astra-gtc.jpg",
+                "Zwinne coupe do codziennej jazdy, z wygodnym wnętrzem i niskimi kosztami utrzymania.");
+        listing(advertisingDao, existingImages, seller, "Model X Long Range", tesla, suv, "Elektryczny", "Nowy", "Nieuszkodzony",
+                2022, 35, 289_900, "tesla-model-x.jpg",
+                "Przestronny SUV elektryczny z napędem na cztery koła, dużym zasięgiem i siedmioma miejscami.");
+        listing(advertisingDao, existingImages, seller, "Corolla Hybrid", toyota, hatchback, "Hybryda", "Używany", "Nieuszkodzony",
+                2021, 51_800, 94_900, "toyota-corolla.jpg",
+                "Ekonomiczny hatchback z bezproblemowym napędem hybrydowym i niskim zużyciem paliwa.");
+        listing(advertisingDao, existingImages, seller, "Beetle 1.2 TSI", volkswagen, hatchback, "Benzyna", "Używany", "Uszkodzony",
+                2017, 69_300, 59_900, "volkswagen-bettle.jpg",
+                "Nieszablonowy miejski hatchback z panoramicznym dachem i zadbanym wnętrzem.");
     }
 
     private Category category(CategoryDao dao, String name) {
+        Category existing = dao.findAll().stream()
+                .filter(item -> name.equals(item.getName()))
+                .findFirst()
+                .orElse(null);
+        if (existing != null) {
+            return existing;
+        }
         Category item = new Category();
         item.setName(name);
         dao.create(item);
@@ -95,14 +161,25 @@ public class ApexWheelsApplication {
     }
 
     private Brand brand(BrandDao dao, String name) {
+        Brand existing = dao.findAll().stream()
+                .filter(item -> name.equals(item.getName()))
+                .findFirst()
+                .orElse(null);
+        if (existing != null) {
+            return existing;
+        }
         Brand item = new Brand();
         item.setName(name);
         dao.create(item);
         return item;
     }
 
-    private void listing(AdvertisingDao dao, User seller, String title, Brand brand,
-                         Category category, int year, int mileage, int price, String image, String description) {
+    private void listing(AdvertisingDao dao, Set<String> existingImages, User seller, String title, Brand brand,
+                         Category category, String fuelType, String vehicleCondition, String damageStatus,
+                         int year, int mileage, int price, String image, String description) {
+        if (existingImages.contains(image)) {
+            return;
+        }
         Advertising item = new Advertising();
         item.setTitle(title);
         item.setDescription(description);
@@ -111,9 +188,13 @@ public class ApexWheelsApplication {
         item.setPrice(price);
         item.setYear_of_production(year);
         item.setPhone_number(501_234_567);
+        item.setFuelType(fuelType);
+        item.setVehicleCondition(vehicleCondition);
+        item.setDamageStatus(damageStatus);
         item.setBrand(brand);
         item.setCategory(category);
         item.setUser(seller);
         dao.create(item);
+        existingImages.add(image);
     }
 }

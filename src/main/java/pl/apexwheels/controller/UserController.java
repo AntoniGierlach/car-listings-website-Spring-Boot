@@ -33,7 +33,7 @@ public class UserController {
         model.addAttribute("brand", brandDao.findAll());
         model.addAttribute("items", adsList);
         if (adsList.size() != 0) {
-            return "/user/advertising-list";
+            return "user/advertising-list";
         }
         return "no-results";
     }
@@ -44,7 +44,7 @@ public class UserController {
         model.addAttribute("category", categoryDao.findAll());
         model.addAttribute("brand", brandDao.findAll());
         model.addAttribute("items", advertisingDao.findAll());
-        return "/user/advertising-form";
+        return "user/advertising-form";
     }
 
     @RequestMapping(value = "/advertising/create", method = RequestMethod.POST)
@@ -53,8 +53,9 @@ public class UserController {
             model.addAttribute("category", categoryDao.findAll());
             model.addAttribute("brand", brandDao.findAll());
             model.addAttribute("items", advertisingDao.findAll());
-            return "/user/advertising-form";
+            return "user/advertising-form";
         }
+        advertising.setId(null);
         advertising.setUser(userService.findByUsername(user.getUsername()));
         advertisingDao.create(advertising);
         return "redirect:/user/advertising/list";
@@ -70,7 +71,7 @@ public class UserController {
         model.addAttribute("category", categoryDao.findAll());
         model.addAttribute("brand", brandDao.findAll());
         model.addAttribute("items", advertisingDao.findAll());
-        return "/user/advertising-form";
+        return "user/advertising-form";
     }
 
     @RequestMapping(value = "/advertising/update/{id}", method = RequestMethod.POST)
@@ -79,7 +80,7 @@ public class UserController {
             model.addAttribute("category", categoryDao.findAll());
             model.addAttribute("brand", brandDao.findAll());
             model.addAttribute("items", advertisingDao.findAll());
-            return "/user/advertising-form";
+            return "user/advertising-form";
         }
         Advertising persistedAdvertising = advertisingDao.findById(id);
         if (!canManage(persistedAdvertising, user)) {
@@ -91,6 +92,7 @@ public class UserController {
         persistedAdvertising.setPrice(advertising.getPrice());
         persistedAdvertising.setYear_of_production(advertising.getYear_of_production());
         persistedAdvertising.setPhone_number(advertising.getPhone_number());
+        persistedAdvertising.setImage(advertising.getImage());
         persistedAdvertising.setCategory(advertising.getCategory());
         persistedAdvertising.setBrand(advertising.getBrand());
         advertisingDao.update(persistedAdvertising);
@@ -104,7 +106,7 @@ public class UserController {
             return "redirect:/user/advertising/list";
         }
         model.addAttribute("advertising", advertising);
-        return "/user/advertising-remove";
+        return "user/advertising-remove";
     }
 
     @RequestMapping(value = "/advertising/remove/{id}", method = RequestMethod.POST)
@@ -119,7 +121,7 @@ public class UserController {
 
     @RequestMapping(value = "/changePassword", method = RequestMethod.GET)
     public String changePassword() {
-        return "/user/change-password";
+        return "user/change-password";
     }
 
     private boolean canManage(Advertising advertising, UserDetails user) {

@@ -1,110 +1,200 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!doctype html>
-<html lang="en">
+<html lang="pl">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-    <meta name="generator" content="Hugo 0.104.2">
-    <title>Zaloguj się</title>
-
-    <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/sign-in/">
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-
-
+    <meta name="description" content="Zaloguj się do swojego konta ApexWheels.">
+    <title>Zaloguj się | ApexWheels</title>
+    <link rel="icon" href="${pageContext.request.contextPath}/icons/tire.png" type="image/png">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
     <style>
-        @media (min-width: 768px) {
-            .bd-placeholder-img-lg {
-                font-size: 3.5rem;
-            }
+        :root {
+            --ink: #17212b;
+            --muted: #74808a;
+            --line: #e6e9ec;
+            --canvas: #f7f8f6;
+            --surface: #fff;
+            --navy: #102a43;
+            --orange: #e27d45;
+            --orange-soft: #fff1e8;
         }
-
-        .bi {
-            vertical-align: -.125em;
-            fill: currentColor;
+        * { box-sizing: border-box; }
+        html, body { min-height: 100%; }
+        body {
+            margin: 0;
+            background: var(--canvas);
+            color: var(--ink);
+            font-family: "DM Sans", sans-serif;
+            -webkit-font-smoothing: antialiased;
         }
-
-        .nav-scroller .nav {
+        h1, h2, .brand-name { font-family: "Manrope", sans-serif; }
+        a { color: inherit; }
+        .auth-shell {
+            display: grid;
+            grid-template-columns: minmax(280px, .85fr) minmax(340px, 1.15fr);
+            min-height: 100vh;
+        }
+        .auth-intro {
             display: flex;
-            flex-wrap: nowrap;
-            padding-bottom: 1rem;
-            margin-top: -1px;
-            overflow-x: auto;
-            text-align: center;
-            white-space: nowrap;
-            -webkit-overflow-scrolling: touch;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: clamp(28px, 5vw, 68px);
+            background: var(--navy);
+            color: #fff;
         }
-
-        body {
-            height: 100%;
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 11px;
+            width: fit-content;
+            color: #fff;
+            text-decoration: none;
         }
-
-        body {
+        .brand-icon { width: 40px; height: 40px; color: var(--orange); stroke-width: 2.2; }
+        .brand-name { font-size: 1.14rem; letter-spacing: -.03em; }
+        .brand-name span { color: var(--orange); }
+        .intro-copy { max-width: 430px; margin: auto 0; padding: 48px 0; }
+        .eyebrow {
+            margin: 0 0 16px;
+            color: var(--orange);
+            font-size: .72rem;
+            font-weight: 700;
+            letter-spacing: .16em;
+            text-transform: uppercase;
+        }
+        .intro-copy h1 {
+            margin: 0 0 18px;
+            font-size: clamp(2rem, 4vw, 3.6rem);
+            line-height: 1.06;
+            letter-spacing: -.06em;
+        }
+        .intro-copy p { margin: 0; max-width: 370px; color: rgba(255,255,255,.68); line-height: 1.7; }
+        .intro-footer { color: rgba(255,255,255,.48); font-size: .78rem; }
+        .auth-content {
             display: flex;
             align-items: center;
-            padding-top: 40px;
-            padding-bottom: 40px;
-            background-color: #f5f5f5;
+            justify-content: center;
+            padding: 32px clamp(20px, 6vw, 96px);
         }
-
-        .form-signin {
-            max-width: 330px;
-            padding: 15px;
+        .auth-card { width: min(100%, 440px); }
+        .mobile-brand { display: none; }
+        .auth-heading { margin-bottom: 28px; }
+        .auth-heading h2 { margin: 0 0 8px; color: var(--navy); font-size: clamp(1.7rem, 3vw, 2.25rem); letter-spacing: -.05em; }
+        .auth-heading p { margin: 0; color: var(--muted); line-height: 1.6; }
+        .alert {
+            padding: 12px 14px;
+            margin-bottom: 18px;
+            border: 1px solid #f1c2ad;
+            border-radius: 8px;
+            background: var(--orange-soft);
+            color: #8d3e1f;
+            font-size: .88rem;
         }
-
-        .form-signin .form-floating:focus-within {
-            z-index: 2;
+        .field { margin-bottom: 16px; }
+        .field label { display: block; margin-bottom: 7px; color: var(--navy); font-size: .82rem; font-weight: 700; }
+        .field input {
+            display: block;
+            width: 100%;
+            min-height: 48px;
+            padding: 11px 13px;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: var(--surface);
+            color: var(--ink);
+            font: inherit;
         }
-
-        .form-signin input[type="email"] {
-            margin-bottom: -1px;
-            border-bottom-right-radius: 0;
-            border-bottom-left-radius: 0;
+        .field input:focus { outline: 0; border-color: var(--orange); box-shadow: 0 0 0 3px rgba(226,125,69,.15); }
+        .field-error { margin-top: 6px; color: #b42318; font-size: .78rem; }
+        .auth-submit {
+            width: 100%;
+            min-height: 48px;
+            margin-top: 8px;
+            border: 0;
+            border-radius: 8px;
+            background: var(--orange);
+            color: #fff;
+            font: inherit;
+            font-weight: 700;
+            cursor: pointer;
         }
-
-        .form-signin input[type="password"] {
-            margin-bottom: 10px;
-            border-top-left-radius: 0;
-            border-top-right-radius: 0;
+        .auth-submit:hover, .auth-submit:focus-visible { background: #d66b34; }
+        .auth-links { display: flex; justify-content: space-between; gap: 16px; margin-top: 22px; color: var(--muted); font-size: .84rem; }
+        .auth-links a { color: var(--orange); font-weight: 700; text-decoration: none; }
+        .auth-links a:hover, .auth-links a:focus-visible { color: var(--navy); text-decoration: underline; }
+        @media (max-width: 760px) {
+            .auth-shell { display: block; }
+            .auth-intro { display: none; }
+            .auth-content { min-height: 100vh; align-items: flex-start; padding: 28px 20px 36px; }
+            .mobile-brand { display: inline-flex; margin-bottom: 56px; }
         }
     </style>
 </head>
-<body class="text-center">
-
-<main class="form-signin w-100 m-auto">
-    <form:form method="post" modelAttribute="">
-        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-people-fill"
-             viewBox="0 0 16 16">
-            <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-            <path fill-rule="evenodd"
-                  d="M5.216 14A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216z"/>
-            <path d="M4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/>
-        </svg>
-        <h1 class="h3 mb-3 fw-normal">Zaloguj się</h1>
-
-        <div class="form-floating">
-            <input type="text" name="username" id="inputUsername" class="form-control" placeholder="Nazwa użytkownika"
-                   required="required" autofocus="autofocus">
-            <label for="inputUsername">Nazwa użytkownika</label>
-            <form:errors path="username"/>
+<body>
+<main class="auth-shell">
+    <section class="auth-intro" aria-label="Informacje o ApexWheels">
+        <a class="brand" href="<c:url value="/"/>" aria-label="ApexWheels — strona główna">
+            <i data-lucide="car-front" class="brand-icon" aria-hidden="true"></i>
+            <span class="brand-name">APEX<span>WHEELS</span></span>
+        </a>
+        <div class="intro-copy">
+            <p class="eyebrow">Twoje konto</p>
+            <h1>Wróć do samochodów, które naprawdę Cię interesują.</h1>
+            <p>Zaloguj się, aby zarządzać ogłoszeniami, ulubionymi ofertami i porównaniami w jednym miejscu.</p>
         </div>
-        <div class="form-floating">
-            <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Hasło"
-                   required="required" autofocus="autofocus">
-            <label for="inputPassword">Hasło</label>
-            <form:errors path="password"/>
+        <p class="intro-footer">&copy; ApexWheels 2026</p>
+    </section>
+    <section class="auth-content">
+        <div class="auth-card">
+            <a class="brand mobile-brand" href="<c:url value="/"/>" aria-label="ApexWheels — strona główna">
+                <i data-lucide="car-front" class="brand-icon" aria-hidden="true"></i>
+                <span class="brand-name" style="color: var(--navy);">APEX<span>WHEELS</span></span>
+            </a>
+            <div class="auth-heading">
+                <h2>Zaloguj się</h2>
+                <p>Wpisz dane, aby przejść do swojego konta.</p>
+            </div>
+            <c:if test="${not empty param.error}">
+                <c:choose>
+                    <c:when test="${param.error == 'blocked'}">
+                        <div class="alert" role="alert">
+                            Konto zostało zablokowane przez administratora.
+                            <a href="<c:url value="/contact"/>">Skontaktuj się z nami</a>, aby wyjaśnić sytuację.
+                        </div>
+                    </c:when>
+                    <c:otherwise>
+                        <div class="alert" role="alert">Nie udało się zalogować. Sprawdź nazwę użytkownika i hasło.</div>
+                    </c:otherwise>
+                </c:choose>
+            </c:if>
+            <form action="<c:url value="/login"/>" method="post">
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+                <div class="field">
+                    <label for="inputUsername">Nazwa użytkownika (login)</label>
+                    <input type="text" name="username" id="inputUsername" autocomplete="username" required autofocus>
+                    <small style="display:block;margin-top:6px;color:var(--muted);">To login ustawiony podczas rejestracji, a nie imię ani nazwisko.</small>
+                </div>
+                <div class="field">
+                    <label for="inputPassword">Hasło</label>
+                    <input type="password" name="password" id="inputPassword" autocomplete="current-password" required>
+                </div>
+                <button class="auth-submit" type="submit">Zaloguj się</button>
+            </form>
+            <div class="auth-links">
+                <span>Nie masz jeszcze konta?</span>
+                <a href="<c:url value="/register"/>">Zarejestruj się</a>
+            </div>
+            <div class="auth-links">
+                <a href="<c:url value="/"/>"><i data-lucide="arrow-left" aria-hidden="true"></i> Wróć na stronę główną</a>
+            </div>
         </div>
-        <button class="w-100 btn btn-lg btn-primary" type="submit">Zaloguj</button>
-    </form:form>
-    <div class="text-center">
-        <a class="d-block small mt-3" href="/register">Zarejestruj się</a>
-        <p class="mt-5 mb-3 text-muted">&copy; Final Project 2022</p>
-    </div>
+    </section>
 </main>
+<script>lucide.createIcons();</script>
 </body>
 </html>

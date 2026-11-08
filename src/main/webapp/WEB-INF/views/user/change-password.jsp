@@ -71,10 +71,8 @@
 <main class="form-signin w-100 m-auto">
     <form:form method="post">
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-lock-fill"
-             viewBox="0 0 16 16">
-            <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/>
-        </svg>
+        <script src="https://unpkg.com/lucide@latest"></script>
+        <i data-lucide="lock-keyhole" width="50" height="50" aria-hidden="true"></i>
         <h1 class="h3 mb-3 fw-normal">Zmień hasło</h1>
 
         <div class="form-floating">
@@ -93,9 +91,10 @@
         <button class="w-100 btn btn-lg btn-primary" type="submit">Zmień hasło</button>
     </form:form>
     <div class="text-center">
-        <a class="d-block small mt-3" href="/">Strona główna</a>
-        <p class="mt-5 mb-3 text-muted">&copy; Final Project 2022</p>
+        <a class="d-block small mt-3" href="<c:url value="/"/>">Strona główna</a>
+        <p class="mt-5 mb-3 text-muted">&copy; ApexWheels 2026</p>
     </div>
 </main>
+<script>lucide.createIcons();</script>
 </body>
 </html>
