@@ -139,7 +139,7 @@
 <main class="auth-shell">
     <section class="auth-intro" aria-label="Informacje o ApexWheels">
         <a class="brand" href="<c:url value="/"/>" aria-label="ApexWheels — strona główna">
-            <i data-lucide="car-front" class="brand-icon" aria-hidden="true"></i>
+            <i data-lucide="gauge" class="brand-icon" aria-hidden="true"></i>
             <span class="brand-name">APEX<span>WHEELS</span></span>
         </a>
         <div class="intro-copy">
@@ -152,7 +152,7 @@
     <section class="auth-content">
         <div class="auth-card">
             <a class="brand mobile-brand" href="<c:url value="/"/>" aria-label="ApexWheels — strona główna">
-                <i data-lucide="car-front" class="brand-icon" aria-hidden="true"></i>
+                <i data-lucide="gauge" class="brand-icon" aria-hidden="true"></i>
                 <span class="brand-name" style="color: var(--navy);">APEX<span>WHEELS</span></span>
             </a>
             <div class="auth-heading">

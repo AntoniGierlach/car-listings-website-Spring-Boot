@@ -40,6 +40,11 @@ public class Advertising {
 
     @NotNull
     @Min(value = 1)
+    @Column(name = "engine_power")
+    private Integer power;
+
+    @NotNull
+    @Min(value = 1)
     private Integer price;
 
     @NotNull

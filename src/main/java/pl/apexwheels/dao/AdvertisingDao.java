@@ -80,7 +80,7 @@ public class AdvertisingDao {
 
     public List<Advertising> search(Long brandId, Long categoryId, Integer minPrice, Integer maxPrice,
                                     Integer minMileage, Integer maxMileage, String fuelType,
-                                    String vehicleCondition, String damageStatus, String sort) {
+                                    String vehicleCondition, String damageStatus, String searchText, String sort) {
         StringBuilder jpql = new StringBuilder("SELECT a FROM Advertising a WHERE 1 = 1");
         if (brandId != null) {
             jpql.append(" AND a.brand.id = :brandId");
@@ -108,6 +108,24 @@ public class AdvertisingDao {
         }
         if (damageStatus != null && !damageStatus.isBlank()) {
             jpql.append(" AND a.damageStatus = :damageStatus");
+        }
+        if (searchText != null && !searchText.isBlank()) {
+            jpql.append(" AND (");
+            jpql.append("""
+                        LOWER(a.title) LIKE :searchText
+                        OR LOWER(a.description) LIKE :searchText
+                        OR LOWER(a.fuelType) LIKE :searchText
+                        OR LOWER(a.vehicleCondition) LIKE :searchText
+                        OR LOWER(a.damageStatus) LIKE :searchText
+                        OR LOWER(a.image) LIKE :searchText
+                        OR LOWER(a.brand.name) LIKE :searchText
+                        OR LOWER(a.category.name) LIKE :searchText
+                        OR str(a.year_of_production) LIKE :searchText
+                        OR str(a.mileage) LIKE :searchText
+                        OR str(a.power) LIKE :searchText
+                        OR str(a.price) LIKE :searchText
+                    )
+                    """);
         }
 
         jpql.append(" ORDER BY ");
@@ -146,6 +164,9 @@ public class AdvertisingDao {
         }
         if (damageStatus != null && !damageStatus.isBlank()) {
             query.setParameter("damageStatus", damageStatus);
+        }
+        if (searchText != null && !searchText.isBlank()) {
+            query.setParameter("searchText", "%" + searchText.trim().toLowerCase(java.util.Locale.ROOT) + "%");
         }
         return query.getResultList();
     }

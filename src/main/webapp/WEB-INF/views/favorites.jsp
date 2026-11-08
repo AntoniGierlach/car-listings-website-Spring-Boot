@@ -17,6 +17,7 @@
         border: 1px solid var(--line);
         border-radius: 16px;
         background: var(--surface);
+        cursor: pointer;
         box-shadow: 0 8px 24px rgba(16, 42, 67, .06);
         transition: transform .24s ease, box-shadow .24s ease;
     }
@@ -28,8 +29,9 @@
 
     .favorite-card-link {
         position: absolute;
-        z-index: 0;
+        z-index: 1;
         inset: 0;
+        pointer-events: none;
         border-radius: inherit;
     }
 
@@ -41,7 +43,7 @@
     .favorite-card__image,
     .favorite-card__body {
         position: relative;
-        z-index: 1;
+        z-index: 0;
     }
 
     .favorite-card__image {
@@ -78,6 +80,18 @@
         font-size: .88rem;
     }
 
+    .favorite-card__meta span {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .favorite-card__meta svg {
+        width: 14px;
+        height: 14px;
+        color: #8b969c;
+    }
+
     .favorite-card__footer {
         display: flex;
         align-items: center;
@@ -105,7 +119,7 @@
 </style>
 
 <div class="listing-intro">
-    <div><p class="eyebrow">ApexWheels / konto</p><h1>Twoje <em>ulubione</em> oferty.</h1></div>
+    <div><p class="eyebrow">ApexWheels / ulubione</p><h1>Twoje <em>ulubione</em> oferty.</h1></div>
     <p class="listing-note">Zapisane samochody są przypisane do Twojego konta i dostępne po zalogowaniu na dowolnym urządzeniu.</p>
 </div>
 
@@ -117,7 +131,8 @@
     <c:when test="${not empty favoriteItems}">
         <div class="favorites-grid">
             <c:forEach items="${favoriteItems}" var="item">
-                <article class="favorite-card">
+                <article class="favorite-card js-listing-card"
+                         data-details-url="<c:url value="/advertising/details/${item.id}"/>">
                     <a class="favorite-card-link"
                        href="<c:url value="/advertising/details/${item.id}"/>"
                        aria-label="Zobacz ogłoszenie: <c:out value="${item.title}"/>"></a>
@@ -135,9 +150,10 @@
                     <div class="favorite-card__body">
                         <h2><c:out value="${item.title}"/></h2>
                         <div class="favorite-card__meta">
-                            <span><c:out value="${item.year_of_production}"/> r. | </span>
-                            <span><fmt:formatNumber value="${item.mileage}" groupingUsed="true"/> km | </span>
-                            <c:if test="${not empty item.fuelType}"><span><c:out value="${item.fuelType}"/></span></c:if>
+                            <span><i data-lucide="calendar-days" aria-hidden="true"></i><c:out value="${item.year_of_production}"/> r.</span>
+                            <span><i data-lucide="road" aria-hidden="true"></i><fmt:formatNumber value="${item.mileage}" groupingUsed="true"/> km</span>
+                            <span><i data-lucide="gauge" aria-hidden="true"></i><c:out value="${item.power}"/> KM</span>
+                            <c:if test="${not empty item.fuelType}"><span><i data-lucide="fuel" aria-hidden="true"></i><c:out value="${item.fuelType}"/></span></c:if>
                         </div>
                         <div class="favorite-card__footer">
                             <span class="listing-price"><fmt:formatNumber value="${item.price}" groupingUsed="true"/> zł</span>

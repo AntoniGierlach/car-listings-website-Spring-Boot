@@ -32,7 +32,11 @@
         }
 
         * { box-sizing: border-box; }
-        html { min-height: 100%; }
+        html {
+            min-height: 100%;
+            overflow-y: scroll;
+            scrollbar-gutter: stable;
+        }
         body {
             min-height: 100vh;
             margin: 0;
@@ -160,7 +164,13 @@
             border: 1px solid var(--line);
             border-radius: 7px;
             background: #fff;
+            color: var(--ink);
             font-size: .78rem;
+        }
+        .range-form input:focus {
+            outline: 0;
+            border-color: var(--orange);
+            box-shadow: 0 0 0 3px rgba(226,125,69,.15);
         }
         .range-form > button[type="submit"] {
             grid-column: 1 / -1;
@@ -172,6 +182,14 @@
             font-size: .76rem;
             font-weight: 700;
         }
+        .search-text-field {
+            display: grid;
+            grid-column: 1 / -1;
+            gap: 6px;
+            margin-top: 4px;
+        }
+        .search-text-field .filter-label { margin-bottom: 0; }
+        .search-text-field input { width: 100%; }
         .range-group { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
         .range-group .filter-label { grid-column: 1 / -1; margin-bottom: 0; }
         .search-select { position: relative; grid-column: 1 / -1; }
@@ -254,8 +272,37 @@
         }
         .filter-choice:checked + label { border-color: var(--orange); background: var(--orange-soft); color: var(--navy); font-weight: 700; }
         .filter-choice:focus-visible + label { outline: 3px solid rgba(226,125,69,.45); outline-offset: 2px; }
-        .content { min-width: 0; padding: 42px clamp(22px, 4vw, 64px) 60px; }
+        .content {
+            display: flex;
+            min-width: 0;
+            flex-direction: column;
+            align-items: center;
+            padding: 42px clamp(22px, 4vw, 64px) 60px;
+        }
+        .content > * { width: 100%; max-width: 1120px; }
         .page-container { width: 100%; max-width: 1120px; margin: 0 auto; }
+        .site-body:not(.site-body--excluded) .content .eyebrow {
+            margin: 0 0 12px;
+            color: var(--orange);
+            font-size: .72rem;
+            font-weight: 700;
+            letter-spacing: .16em;
+            line-height: 1.3;
+            text-transform: uppercase;
+        }
+        .site-body:not(.site-body--excluded) .content h1 {
+            margin: 0 0 20px;
+            color: var(--navy);
+            font-family: "Manrope", sans-serif;
+            font-size: clamp(2rem, 3.5vw, 3rem);
+            font-weight: 800;
+            line-height: 1.08;
+            letter-spacing: -.05em;
+        }
+        .site-body:not(.site-body--excluded) .content h1 em {
+            color: var(--orange);
+            font-style: normal;
+        }
         .page-container > h1 { margin: 0 0 14px; color: var(--navy); font-size: clamp(2rem, 3.5vw, 3rem); letter-spacing: -.05em; }
         .page-container > .lead { max-width: 760px; color: var(--muted); line-height: 1.65; }
         .surface-card {
@@ -267,9 +314,41 @@
         .surface-card--padded { padding: clamp(20px, 3vw, 32px); }
         .section-heading { margin: 0 0 12px; color: var(--navy); font-size: 1.2rem; }
         .page-container .form-control,
-        .page-container .form-select { border-color: var(--line); border-radius: 8px; padding: 11px 12px; }
+        .page-container .form-select,
+        .sort-select {
+            min-height: 46px;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background-color: var(--surface);
+            color: var(--ink);
+            font: inherit;
+        }
+        .page-container .form-control { padding: 11px 12px; }
+        .page-container .form-select,
+        .sort-select {
+            padding: 11px 38px 11px 12px;
+            background-position: right 12px center;
+        }
+        .sort-select {
+            appearance: none;
+            -webkit-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2374808a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-size: 16px;
+        }
+        .sort-select option {
+            padding: 10px 12px;
+            background: var(--surface);
+            color: var(--ink);
+        }
         .page-container .form-control:focus,
-        .page-container .form-select:focus { border-color: var(--orange); box-shadow: 0 0 0 3px rgba(226,125,69,.15); }
+        .page-container .form-select:focus,
+        .sort-select:focus {
+            border-color: var(--orange);
+            box-shadow: 0 0 0 3px rgba(226,125,69,.15);
+        }
+        .page-container .form-select:hover,
+        .sort-select:hover { border-color: #c8d0d4; }
         .page-container .btn-primary,
         .page-container .btn-apex { border: 0; background: var(--orange); }
         .page-container .btn-primary:hover,
@@ -318,11 +397,19 @@
         }
     </style>
 </head>
-<body>
+<c:choose>
+    <c:when test="${pageContext.request.servletPath == '/' || pageContext.request.servletPath == '/login' || pageContext.request.servletPath == '/register'}">
+        <c:set var="bodyClass" value="site-body site-body--excluded"/>
+    </c:when>
+    <c:otherwise>
+        <c:set var="bodyClass" value="site-body"/>
+    </c:otherwise>
+</c:choose>
+<body class="<c:out value="${bodyClass}"/>">
 <header class="topbar">
     <div class="topbar-inner">
         <a href="<c:url value="/"/>" class="brand" aria-label="ApexWheels — strona główna">
-            <i data-lucide="car-front" class="brand-icon" aria-hidden="true"></i>
+            <i data-lucide="gauge" class="brand-icon" aria-hidden="true"></i>
             <span class="brand-name">APEX<span>WHEELS</span></span>
         </a>
         <nav class="primary-nav" aria-label="Główna nawigacja">
@@ -375,6 +462,7 @@
                     <div class="search-error" role="alert"><c:out value="${searchError}"/></div>
                 </c:if>
                 <input type="hidden" name="sort" value="<c:out value="${param.sort}"/>">
+                <input type="hidden" name="layout" value="<c:out value="${param.layout}"/>">
                 <div class="search-select" data-search-select>
                     <div class="filter-label"><span>Marka</span></div>
                     <input type="text" class="search-select-input ${invalidBrand ? 'search-invalid' : ''}" name="brandLabel"
@@ -443,6 +531,13 @@
                     <input class="filter-choice" type="radio" name="damageStatus" id="damage-any" value="" ${empty param.damageStatus ? 'checked' : ''}><label for="damage-any">Dowolny</label>
                     <input class="filter-choice" type="radio" name="damageStatus" id="damage-none" value="Nieuszkodzony" ${param.damageStatus == 'Nieuszkodzony' ? 'checked' : ''}><label for="damage-none">Nieuszkodzony</label>
                     <input class="filter-choice" type="radio" name="damageStatus" id="damage-present" value="Uszkodzony" ${param.damageStatus == 'Uszkodzony' ? 'checked' : ''}><label for="damage-present">Uszkodzony</label>
+                </div>
+                <div class="search-text-field">
+                    <div class="filter-label"><span>Szukaj w treści ogłoszenia</span></div>
+                    <input type="search" name="searchText" value="<c:out value="${param.searchText}"/>"
+                           placeholder="Np. Audi, SUV, 2019, automat..."
+                           aria-label="Szukaj w tytule, opisie i parametrach ogłoszenia"
+                           autocomplete="off">
                 </div>
                 <button type="submit">Szukaj</button>
             </form>

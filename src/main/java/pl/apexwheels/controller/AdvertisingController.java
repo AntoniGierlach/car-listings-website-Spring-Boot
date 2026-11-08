@@ -59,6 +59,7 @@ public class AdvertisingController {
                          @RequestParam(required = false) String fuelType,
                          @RequestParam(required = false) String vehicleCondition,
                          @RequestParam(required = false) String damageStatus,
+                         @RequestParam(required = false) String searchText,
                          @RequestParam(required = false, defaultValue = "date") String sort,
                          Model model) {
         addSearchSelections(model, brandId, categoryId);
@@ -86,7 +87,7 @@ public class AdvertisingController {
         }
 
         model.addAttribute("items", advertisingDao.search(brandId, categoryId, minPrice, maxPrice,
-                minMileage, maxMileage, fuelType, vehicleCondition, damageStatus, sort));
+                minMileage, maxMileage, fuelType, vehicleCondition, damageStatus, searchText, sort));
         model.addAttribute("showSearchSidebar", true);
         return "index";
     }
@@ -124,12 +125,12 @@ public class AdvertisingController {
 
     @RequestMapping(value = "/mileage")
     public String findAllByRatingBetween(@RequestParam(name = "min") Integer min, @RequestParam(name = "max") Integer max, Model model) {
-        return search(null, null, null, null, min, max, null, null, null, "date", model);
+        return search(null, null, null, null, min, max, null, null, null, null, "date", model);
     }
 
     @RequestMapping(value = "/price")
     public String findAllByPriceBetween(@RequestParam(name = "min") Integer min, @RequestParam(name = "max") Integer max, Model model) {
-        return search(null, null, min, max, null, null, null, null, null, "date", model);
+        return search(null, null, min, max, null, null, null, null, null, null, "date", model);
     }
 
     @RequestMapping(value = "/sort/mileageMin")

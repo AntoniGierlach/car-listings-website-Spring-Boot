@@ -86,6 +86,17 @@
         font-weight: 800;
     }
 
+    .compare-title a {
+        color: inherit;
+        text-decoration: none;
+    }
+
+    .compare-title a:hover,
+    .compare-title a:focus-visible {
+        color: var(--orange);
+        text-decoration: underline;
+    }
+
     .compare-different {
         color: #16803c !important;
         font-weight: 800;
@@ -131,7 +142,11 @@
                             <i data-lucide="trash-2" aria-hidden="true"></i>
                         </button>
                     </div>
-                    <span class="compare-title"><c:out value="${item.title}"/></span>
+                    <span class="compare-title">
+                        <a href="<c:url value="/advertising/details/${item.id}"/>">
+                            <c:out value="${item.title}"/>
+                        </a>
+                    </span>
                 </th>
             </c:forEach>
         </tr>
@@ -150,12 +165,28 @@
             <c:forEach items="${items}" var="item"><td class="compare-column d-none" data-listing-id="${item.id}" data-value="${item.mileage}"><fmt:formatNumber value="${item.mileage}" groupingUsed="true"/> km</td></c:forEach>
         </tr>
         <tr class="compare-row" data-compare-row>
+            <th class="compare-label">Moc</th>
+            <c:forEach items="${items}" var="item"><td class="compare-column d-none" data-listing-id="${item.id}" data-value="${item.power}"><c:out value="${item.power}"/> KM</td></c:forEach>
+        </tr>
+        <tr class="compare-row" data-compare-row>
             <th class="compare-label">Marka</th>
             <c:forEach items="${items}" var="item"><td class="compare-column d-none" data-listing-id="${item.id}" data-value="<c:out value="${item.brand.name}"/>"><c:out value="${item.brand.name}"/></td></c:forEach>
         </tr>
         <tr class="compare-row" data-compare-row>
             <th class="compare-label">Kategoria</th>
             <c:forEach items="${items}" var="item"><td class="compare-column d-none" data-listing-id="${item.id}" data-value="<c:out value="${item.category.name}"/>"><c:out value="${item.category.name}"/></td></c:forEach>
+        </tr>
+                <tr class="compare-row" data-compare-row>
+            <th class="compare-label">Rodzaj paliwa</th>
+            <c:forEach items="${items}" var="item"><td class="compare-column d-none" data-listing-id="${item.id}" data-value="<c:out value="${item.fuelType}"/>"><c:out value="${item.fuelType}"/></td></c:forEach>
+        </tr>
+                <tr class="compare-row" data-compare-row>
+            <th class="compare-label">Stan pojazdu</th>
+            <c:forEach items="${items}" var="item"><td class="compare-column d-none" data-listing-id="${item.id}" data-value="<c:out value="${item.vehicleCondition}"/>"><c:out value="${item.vehicleCondition}"/></td></c:forEach>
+        </tr>
+                <tr class="compare-row" data-compare-row>
+            <th class="compare-label">Stan uszkodzeń</th>
+            <c:forEach items="${items}" var="item"><td class="compare-column d-none" data-listing-id="${item.id}" data-value="<c:out value="${item.damageStatus}"/>"><c:out value="${item.damageStatus}"/></td></c:forEach>
         </tr>
         </tbody>
     </table>

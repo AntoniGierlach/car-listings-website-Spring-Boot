@@ -4,10 +4,6 @@
 <jsp:include page="../fragments/header.jsp"/>
 
 <style>
-    .admin-dashboard {
-        padding: 48px 0 64px;
-    }
-
     .admin-shell {
         overflow: hidden;
         border: 1px solid var(--line);

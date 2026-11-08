@@ -127,6 +127,16 @@
             const favorite = event.target.closest(".js-favorite");
             const compare = event.target.closest(".js-compare");
             const favoriteCard = event.target.closest(".favorite-card");
+            const listingCard = event.target.closest(".js-listing-card");
+            if (listingCard
+                && !event.target.closest("a, button, form, input, select, textarea")
+                && !event.defaultPrevented) {
+                const detailsUrl = listingCard.dataset.detailsUrl;
+                if (detailsUrl) {
+                    window.location.assign(detailsUrl);
+                }
+                return;
+            }
             if (favoriteCard
                 && !event.target.closest("a, button, form, input, select, textarea")
                 && !event.defaultPrevented) {

@@ -28,7 +28,7 @@
         letter-spacing: -.06em;
     }
     .listing-intro h1 em { color: var(--orange); font-style: normal; }
-    .listing-note { max-width: 280px; margin: 0; color: var(--muted); font-size: .9rem; line-height: 1.6; }
+    .listing-note { max-width: 350px; margin: 0; color: var(--muted); font-size: .9rem; line-height: 1.6; }
     .listing-toolbar {
         display: flex;
         align-items: center;
@@ -43,18 +43,169 @@
     .result-count strong { color: var(--ink); }
     .sort-wrap { display: flex; align-items: center; gap: 10px; }
     .sort-wrap label { color: var(--muted); font-size: .76rem; }
-    .sort-select {
-        min-width: 165px;
-        padding: 8px 30px 8px 10px;
+    .listing-layout-toggle {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 3px;
         border: 1px solid var(--line);
-        border-radius: 7px;
+        border-radius: 8px;
         background: var(--surface);
+    }
+    .listing-layout-toggle button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        padding: 0;
+        border: 0;
+        border-radius: 6px;
+        background: transparent;
+        color: var(--muted);
+        cursor: pointer;
+    }
+    .listing-layout-toggle button:hover,
+    .listing-layout-toggle button:focus-visible,
+    .listing-layout-toggle button.is-active {
+        background: var(--orange-soft);
+        color: var(--navy);
+    }
+    .listing-layout-toggle svg { width: 16px; height: 16px; }
+    .sort-select {
+        position: relative;
+        min-width: 165px;
+        min-height: 46px;
+        padding: 0;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background-color: var(--surface);
+        color: var(--ink);
+        background-image: none;
+        transition: border-color .2s ease, box-shadow .2s ease;
+    }
+    .sort-select.is-open,
+    .sort-select:focus-within {
+        border-color: var(--orange);
+        box-shadow: 0 0 0 3px rgba(226,125,69,.15);
+    }
+    .sort-select-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        min-height: 44px;
+        padding: 10px 12px;
+        border: 0;
+        border-radius: inherit;
+        background: transparent;
         color: var(--ink);
         font: inherit;
         font-size: .78rem;
+        text-align: left;
+        cursor: pointer;
+    }
+    .sort-select-toggle svg {
+        width: 16px;
+        height: 16px;
+        color: var(--muted);
+        transition: transform .2s ease;
+    }
+    .sort-select.is-open .sort-select-toggle svg {
+        transform: rotate(180deg);
+    }
+    .sort-select-options {
+        position: absolute;
+        top: calc(100% + 4px);
+        right: -1px;
+        left: -1px;
+        z-index: 30;
+        display: none;
+        padding: 4px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--surface);
+        box-shadow: 0 10px 24px rgba(16, 42, 67, .14);
+    }
+    .sort-select.is-open .sort-select-options {
+        display: block;
+    }
+    .sort-select-option {
+        display: block;
+        width: 100%;
+        padding: 9px 10px;
+        border: 0;
+        border-radius: 5px;
+        background: transparent;
+        color: var(--ink);
+        font: inherit;
+        font-size: .78rem;
+        text-align: left;
+        cursor: pointer;
+    }
+    .sort-select-option:hover,
+    .sort-select-option:focus-visible,
+    .sort-select-option.is-selected {
+        background: var(--orange-soft);
+        color: var(--navy);
+        outline: 0;
+    }
+    .sort-select-option.is-selected {
+        font-weight: 700;
     }
     .sort-links { display: none; }
     .listing-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(245px, 1fr)); gap: 20px; }
+    .listing-grid--list {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+    .listing-grid--list .listing-card {
+        display: grid;
+        grid-template-columns: 322px minmax(0, 1fr);
+        min-height: 190px;
+    }
+    .listing-grid--list .listing-image {
+        height: 100%;
+        min-height: 190px;
+    }
+    .listing-grid--list .listing-body {
+        display: flex;
+        min-width: 0;
+        flex-direction: column;
+        padding: 17px 17px 15px;
+    }
+    .listing-grid--list .listing-footer {
+        margin-top: auto;
+    }
+    .listing-list-details {
+        display: none;
+        margin: 2px 0 16px;
+        color: #78838a;
+        font-size: .75rem;
+        line-height: 1.5;
+    }
+    .listing-grid--list .listing-list-details {
+        display: block;
+    }
+    .listing-list-facts {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px 16px;
+        margin-bottom: 8px;
+    }
+    .listing-list-fact strong {
+        color: #66737b;
+        font-weight: 600;
+    }
+    .listing-list-description {
+        display: -webkit-box;
+        overflow: hidden;
+        margin: 0;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+        font-size: .78rem;
+    }
     .listing-card {
         position: relative;
         min-width: 0;
@@ -62,6 +213,7 @@
         border: 1px solid var(--line);
         border-radius: 12px;
         background: var(--surface);
+        cursor: pointer;
         box-shadow: 0 4px 16px rgba(16, 42, 67, .03);
         transition: transform .24s ease, box-shadow .24s ease;
     }
@@ -84,8 +236,9 @@
     .listing-card:hover .listing-image img { transform: scale(1.04); }
     .listing-card-link {
         position: absolute;
-        z-index: 0;
+        z-index: 1;
         inset: 0;
+        pointer-events: none;
         border-radius: inherit;
     }
     .listing-card-link:focus-visible {
@@ -95,7 +248,7 @@
     .listing-card > .listing-image,
     .listing-card > .listing-body {
         position: relative;
-        z-index: 1;
+        z-index: 0;
     }
     .listing-card .listing-body form,
     .listing-card .listing-body button,
@@ -113,10 +266,55 @@
         border-radius: 5px; background: rgba(255,255,255,.92); color: var(--navy);
         font-size: .68rem; font-weight: 700;
     }
-    .listing-body { padding: 17px 17px 15px; }
+    .listing-body { padding: 10px 10px 15px; }
     .listing-body h2 { margin: 0 0 6px; color: var(--navy); font-size: 1.1rem; letter-spacing: -.035em; }
-    .listing-meta { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 17px; color: var(--muted); font-size: .78rem; }
-    .listing-meta span + span::before { content: "·"; padding-right: 8px; color: #b6bec2; }
+    .listing-meta {
+        display: grid;
+        grid-auto-flow: column;
+        gap: 8px 10px;
+        justify-items: center;
+        margin-bottom: 8px;
+        color: var(--muted);
+        font-size: .78rem;
+    }
+    .listing-meta span {
+        display: inline-flex;
+        min-width: 0;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        width: 100%;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+    .listing-meta span > :last-child {
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .listing-meta svg { width: 16px; height: 16px; color: #8b969c; }
+    .listing-grid--list .listing-meta {
+        display: flex;
+        justify-items: initial;
+        gap: 8px;
+        margin-bottom: 5px;
+    }
+    .listing-grid--list .listing-meta span {
+        justify-content: initial;
+        width: auto;
+        overflow: visible;
+    }
+    .listing-grid--list .listing-meta span > :last-child {
+        overflow: visible;
+        text-overflow: clip;
+    }
+    .listing-meta-conditions {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-bottom: 10px;
+        color: var(--muted);
+        font-size: .70rem;
+    }
     .listing-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-top: 13px; border-top: 1px solid var(--line); }
     .listing-price { color: var(--ink); font-family: "Manrope", sans-serif; font-size: 1.02rem; font-weight: 800; white-space: nowrap; }
     .listing-link { color: var(--orange); font-size: .78rem; font-weight: 700; text-decoration: none; }
@@ -130,6 +328,15 @@
         .listing-toolbar { align-items: flex-start; flex-direction: column; }
         .sort-wrap { width: 100%; justify-content: space-between; }
         .sort-select { flex: 1; }
+        .listing-layout-toggle button { width: 34px; }
+    }
+    @media (max-width: 560px) {
+        .listing-grid--list .listing-card {
+            display: block;
+        }
+        .listing-grid--list .listing-image {
+            height: 190px;
+        }
     }
 </style>
 
@@ -139,20 +346,59 @@
         <h1>Samochód, który<br><em>pasuje do Ciebie.</em></h1>
     </div>
 
-    <p class="listing-note">Wyselekcjonowane ogłoszenia. Przejrzyste dane. Bez zbędnego szumu — tylko dobre samochody.</p>
+    <p class="listing-note">Pomagamy znaleźć samochód bez niepotrzebnego chaosu. Przejrzyste ogłoszenia, konkretne informacje i oferty warte uwagi.</p>
 </div>
 
 <div class="listing-toolbar">
     <span class="result-count"><strong><c:out value="${items.size()}"/></strong> dostępnych ogłoszeń</span>
     <div class="sort-wrap">
-        <label for="sort-links">Sortuj:</label>
-        <select id="sort-links" class="sort-select" onchange="applySort(this.value)">
-            <option value="date" ${empty param.sort || param.sort == 'date' ? 'selected' : ''}>Najnowsze</option>
-            <option value="price-asc" ${param.sort == 'price-asc' ? 'selected' : ''}>Cena: rosnąco</option>
-            <option value="price-desc" ${param.sort == 'price-desc' ? 'selected' : ''}>Cena: malejąco</option>
-            <option value="mileage-asc" ${param.sort == 'mileage-asc' ? 'selected' : ''}>Najniższy przebieg</option>
-            <option value="mileage-desc" ${param.sort == 'mileage-desc' ? 'selected' : ''}>Najwyższy przebieg</option>
-        </select>
+        <label for="sort-links-toggle">Sortuj:</label>
+        <div id="sort-links" class="sort-select" data-sort-select>
+            <button type="button" id="sort-links-toggle" class="sort-select-toggle" aria-haspopup="listbox"
+                    aria-expanded="false" aria-controls="sort-options">
+                <span data-sort-label>
+                    <c:choose>
+                        <c:when test="${param.sort == 'price-asc'}">Cena: rosnąco</c:when>
+                        <c:when test="${param.sort == 'price-desc'}">Cena: malejąco</c:when>
+                        <c:when test="${param.sort == 'mileage-asc'}">Najniższy przebieg</c:when>
+                        <c:when test="${param.sort == 'mileage-desc'}">Najwyższy przebieg</c:when>
+                        <c:otherwise>Najnowsze</c:otherwise>
+                    </c:choose>
+                </span>
+                <i data-lucide="chevron-down" aria-hidden="true"></i>
+            </button>
+            <div id="sort-options" class="sort-select-options" role="listbox" aria-label="Sortowanie ogłoszeń">
+                <button type="button" class="sort-select-option ${empty param.sort || param.sort == 'date' ? 'is-selected' : ''}"
+                        role="option" data-sort-value="date"
+                        aria-selected="${empty param.sort || param.sort == 'date'}">Najnowsze</button>
+                <button type="button" class="sort-select-option ${param.sort == 'price-asc' ? 'is-selected' : ''}"
+                        role="option" data-sort-value="price-asc"
+                        aria-selected="${param.sort == 'price-asc'}">Cena: rosnąco</button>
+                <button type="button" class="sort-select-option ${param.sort == 'price-desc' ? 'is-selected' : ''}"
+                        role="option" data-sort-value="price-desc"
+                        aria-selected="${param.sort == 'price-desc'}">Cena: malejąco</button>
+                <button type="button" class="sort-select-option ${param.sort == 'mileage-asc' ? 'is-selected' : ''}"
+                        role="option" data-sort-value="mileage-asc"
+                        aria-selected="${param.sort == 'mileage-asc'}">Najniższy przebieg</button>
+                <button type="button" class="sort-select-option ${param.sort == 'mileage-desc' ? 'is-selected' : ''}"
+                        role="option" data-sort-value="mileage-desc"
+                        aria-selected="${param.sort == 'mileage-desc'}">Najwyższy przebieg</button>
+            </div>
+        </div>
+        <div class="listing-layout-toggle" role="group" aria-label="Widok ogłoszeń">
+            <button type="button" class="${empty param.layout || param.layout == 'grid' ? 'is-active' : ''}"
+                    data-layout="grid"
+                    aria-label="Widok kafelków"
+                    aria-pressed="${empty param.layout || param.layout == 'grid'}">
+                <i data-lucide="grid-2x2" aria-hidden="true"></i>
+            </button>
+            <button type="button" class="${param.layout == 'list' ? 'is-active' : ''}"
+                    data-layout="list"
+                    aria-label="Widok listy"
+                    aria-pressed="${param.layout == 'list'}">
+                <i data-lucide="list" aria-hidden="true"></i>
+            </button>
+        </div>
     </div>
 </div>
 
@@ -160,15 +406,82 @@
     function applySort(sort) {
         const params = new URLSearchParams(window.location.search);
         params.set("sort", sort);
-        window.location.href = "<c:url value="/advertising/search"/>" + "?" + params.toString();
+        window.location.href = '<c:url value="/advertising/search"/>' + "?" + params.toString();
     }
+
+    (function () {
+        const select = document.querySelector("[data-sort-select]");
+        if (!select) return;
+        const toggle = select.querySelector(".sort-select-toggle");
+        const options = Array.from(select.querySelectorAll(".sort-select-option"));
+
+        function close() {
+            select.classList.remove("is-open");
+            toggle.setAttribute("aria-expanded", "false");
+        }
+
+        toggle.addEventListener("click", function () {
+            const isOpen = select.classList.toggle("is-open");
+            toggle.setAttribute("aria-expanded", String(isOpen));
+        });
+
+        options.forEach(function (option) {
+            option.addEventListener("click", function () {
+                applySort(option.dataset.sortValue);
+            });
+        });
+
+        document.addEventListener("click", function (event) {
+            if (!select.contains(event.target)) close();
+        });
+
+        toggle.addEventListener("keydown", function (event) {
+            if (event.key === "ArrowDown" || event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                select.classList.add("is-open");
+                toggle.setAttribute("aria-expanded", "true");
+                options[0].focus();
+            }
+        });
+
+        options.forEach(function (option, index) {
+            option.addEventListener("keydown", function (event) {
+                if (event.key === "Escape") {
+                    close();
+                    toggle.focus();
+                } else if (event.key === "ArrowDown") {
+                    event.preventDefault();
+                    options[(index + 1) % options.length].focus();
+                } else if (event.key === "ArrowUp") {
+                    event.preventDefault();
+                    options[(index - 1 + options.length) % options.length].focus();
+                }
+            });
+        });
+    }());
+
+    (function () {
+        const toggle = document.querySelector(".listing-layout-toggle");
+        if (!toggle) return;
+        toggle.querySelectorAll("[data-layout]").forEach(function (button) {
+            button.addEventListener("click", function () {
+                const params = new URLSearchParams(window.location.search);
+                params.set("layout", button.dataset.layout);
+                const path = window.location.pathname === '<c:url value="/advertising"/>'
+                    ? window.location.pathname
+                    : '<c:url value="/advertising/search"/>';
+                window.location.href = path + (params.toString() ? "?" + params.toString() : "");
+            });
+        });
+    }());
 </script>
 
 <c:choose>
     <c:when test="${not empty items}">
-        <div class="listing-grid">
+        <div class="listing-grid ${param.layout == 'list' ? 'listing-grid--list' : ''}">
             <c:forEach items="${items}" var="item">
-                <article class="listing-card">
+                <article class="listing-card js-listing-card"
+                         data-details-url="<c:url value="/advertising/details/${item.id}"/>">
                     <a class="listing-card-link"
                        href="<c:url value="/advertising/details/${item.id}"/>"
                        aria-label="Zobacz ogłoszenie: <c:out value="${item.title}"/>"></a>
@@ -185,9 +498,19 @@
                     <div class="listing-body">
                         <h2><c:out value="${item.title}"/></h2>
                         <div class="listing-meta">
-                            <span><c:out value="${item.year_of_production}"/> r.</span>
-                            <span><fmt:formatNumber value="${item.mileage}" groupingUsed="true"/> km</span>
-                            <c:if test="${not empty item.fuelType}"><span><c:out value="${item.fuelType}"/></span></c:if>
+                            <span><i data-lucide="calendar-days" aria-hidden="true"></i><c:out value="${item.year_of_production}"/> r.</span>
+                            <span><i data-lucide="road" aria-hidden="true"></i><fmt:formatNumber value="${item.mileage}" groupingUsed="true"/> km</span>
+                            <span><i data-lucide="gauge" aria-hidden="true"></i><c:out value="${item.power}"/> KM</span>
+                            <c:if test="${not empty item.fuelType}"><span><i data-lucide="fuel" aria-hidden="true"></i><c:out value="${item.fuelType}"/></span></c:if>
+                        </div>
+                        <div class="listing-meta-conditions">
+                            <span><c:out value="${item.vehicleCondition}"/>  |</span>
+                            <span><c:out value="${item.damageStatus}"/></span>
+                        </div>
+                        <div class="listing-list-details">
+                            <c:if test="${not empty item.description}">
+                                <p class="listing-list-description"><c:out value="${item.description}"/></p>
+                            </c:if>
                         </div>
                         <div class="listing-footer">
                             <span class="listing-price"><fmt:formatNumber value="${item.price}" groupingUsed="true"/> zł</span>

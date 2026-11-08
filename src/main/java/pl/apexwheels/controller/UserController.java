@@ -89,6 +89,7 @@ public class UserController {
         persistedAdvertising.setTitle(advertising.getTitle());
         persistedAdvertising.setDescription(advertising.getDescription());
         persistedAdvertising.setMileage(advertising.getMileage());
+        persistedAdvertising.setPower(advertising.getPower());
         persistedAdvertising.setPrice(advertising.getPrice());
         persistedAdvertising.setYear_of_production(advertising.getYear_of_production());
         persistedAdvertising.setPhone_number(advertising.getPhone_number());

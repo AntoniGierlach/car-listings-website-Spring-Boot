@@ -32,6 +32,13 @@
                     </div>
 
                     <div class="col-6">
+                        <form:label cssClass="form-label" path="power">Moc silnika <span
+                                class="text-muted">(KM)</span></form:label>
+                        <form:input cssClass="form-control" path="power" type="number" min="1"/>
+                        <form:errors path="power" cssStyle="color: red"/>
+                    </div>
+
+                    <div class="col-6">
                         <form:label cssClass="form-label" path="price">Cena <span
                                 class="text-muted">(zł)</span></form:label>
                         <form:input cssClass="form-control" path="price" type="number" min="1"/>
